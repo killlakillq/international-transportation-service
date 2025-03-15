@@ -20,7 +20,7 @@ const dbConfig: PostgresConnectionOptions = {
   },
   migrationsRun: true,
   migrations: [migrationsDir],
-  synchronize: false,
+  synchronize: true,
 };
 
 export default {

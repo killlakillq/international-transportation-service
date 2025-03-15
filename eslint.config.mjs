@@ -25,6 +25,7 @@ export default tseslint.config(
       },
     },
   },
+
   {
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
@@ -33,6 +34,12 @@ export default tseslint.config(
       '@typescript-eslint/no-unsafe-call': 'off',
       '@typescript-eslint/no-unsafe-member-access': 'off',
       '@typescript-eslint/no-misused-promises': 'off',
+      'prettier/prettier': [
+        'error',
+        {
+          endOfLine: 'auto',
+        },
+      ],
     },
   },
 );
