@@ -18,23 +18,38 @@ export type Scalars = {
   DateTime: { input: Date; output: Date; }
 };
 
-export type Query = {
-  readonly __typename?: 'Query';
-  readonly getUserId: User;
+export type CreateUserInput = {
+  readonly email: Scalars['String']['input'];
+  readonly password: Scalars['String']['input'];
+};
+
+export type Mutation = {
+  readonly __typename?: 'Mutation';
+  readonly create: User;
 };
 
 
-export type QueryGetUserIdArgs = {
+export type MutationCreateArgs = {
+  createUserInput: CreateUserInput;
+};
+
+export type Query = {
+  readonly __typename?: 'Query';
+  readonly findById: User;
+};
+
+
+export type QueryFindByIdArgs = {
   id: Scalars['String']['input'];
 };
 
 export type User = {
   readonly __typename?: 'User';
-  readonly createdDate: Scalars['DateTime']['output'];
+  readonly createdDate?: Maybe<Scalars['DateTime']['output']>;
   readonly email: Scalars['String']['output'];
   readonly id: Scalars['String']['output'];
   readonly password: Scalars['String']['output'];
-  readonly updatedDate: Scalars['DateTime']['output'];
+  readonly updatedDate?: Maybe<Scalars['DateTime']['output']>;
 };
 
 
@@ -109,7 +124,9 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  CreateUserInput: CreateUserInput;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
+  Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   User: ResolverTypeWrapper<User>;
@@ -118,7 +135,9 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean']['output'];
+  CreateUserInput: CreateUserInput;
   DateTime: Scalars['DateTime']['output'];
+  Mutation: {};
   Query: {};
   String: Scalars['String']['output'];
   User: User;
@@ -128,21 +147,26 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
   name: 'DateTime';
 }
 
+export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  create?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationCreateArgs, 'createUserInput'>>;
+};
+
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  getUserId?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryGetUserIdArgs, 'id'>>;
+  findById?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryFindByIdArgs, 'id'>>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
-  createdDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  createdDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   password?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  updatedDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  updatedDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {
   DateTime?: GraphQLScalarType;
+  Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 };

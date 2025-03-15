@@ -32,7 +32,7 @@ const options: LoggerOptions = {
     },
   },
   redact: {
-    paths: ['pid', 'hostname', 'body.password', 'body.refreshToken'],
+    paths: ['pid', 'hostname', 'variables.createUserInput.password'],
     remove: true,
   },
   transport:

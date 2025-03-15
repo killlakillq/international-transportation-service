@@ -24,11 +24,11 @@ export class User {
   @Column({ type: 'varchar', length: 254 })
   public password: string;
 
-  @Field({ nullable: false })
+  @Field({ nullable: true })
   @CreateDateColumn({ name: 'created_at' })
   public createdDate: Date;
 
-  @Field({ nullable: false })
+  @Field({ nullable: true })
   @UpdateDateColumn({ name: 'updated_at' })
   public updatedDate: Date;
 }

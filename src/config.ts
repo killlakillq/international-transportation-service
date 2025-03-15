@@ -14,7 +14,7 @@ const migrationsDir = join(__dirname, `migrations/*${extname(__filename)}`);
 const dbConfig: PostgresConnectionOptions = {
   type: 'postgres',
   url: process.env['DATABASE_URL'],
-  entities: [join(__dirname, `entities/**/*${extname(__filename)}`)],
+  entities: [join(__dirname, `modules/**/*${extname(__filename)}`)],
   extra: {
     application_name: 'workshop',
   },
@@ -42,6 +42,7 @@ export default {
     useSSL: Boolean(process.env['MINIO_SSL']),
     accessKey: process.env['MINIO_ACCESS_KEY'],
     secretKey: process.env['MINIO_SECRET_KEY'],
+    bucketName: process.env['MINIO_BUCKET_NAME'],
   },
   redis: {
     url: process.env['REDIS_URL'],
