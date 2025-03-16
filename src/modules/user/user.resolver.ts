@@ -7,14 +7,14 @@ import { UserService } from '@/modules/user/user.service';
 export class UserResolver {
   public constructor(private readonly userService: UserService) {}
 
-  @Mutation(() => User)
+  @Mutation(() => User, { name: 'createUser' })
   public async create(
     @Args('createUserInput') createUserInput: CreateUserInput,
   ) {
     return this.userService.create(createUserInput);
   }
 
-  @Query(() => User)
+  @Query(() => User, { name: 'user' })
   public async findById(@Args('id') id: string) {
     return this.userService.findById(id);
   }

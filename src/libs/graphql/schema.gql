@@ -15,15 +15,255 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type Vehicle {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Shipment {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Ticket {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Route {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Rate {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Payment {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Order {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Notification {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Inventory {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Document {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Delivery {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Calculation {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
 type Query {
-  findById(id: String!): User!
+  user(id: String!): User!
+  vehicle(id: Int!): Vehicle!
+  shipment(id: Int!): Shipment!
+  ticket(id: Int!): Ticket!
+  route(id: Int!): Route!
+  rate(id: Int!): Rate!
+  payment(id: Int!): Payment!
+  order(id: Int!): Order!
+  notification(id: Int!): Notification!
+  inventory(id: Int!): Inventory!
+  document(id: Int!): Document!
+  delivery(id: Int!): Delivery!
+  calculation(id: Int!): Calculation!
 }
 
 type Mutation {
-  create(createUserInput: CreateUserInput!): User!
+  createUser(createUserInput: CreateUserInput!): User!
+  createVehicle(createVehicleInput: CreateVehicleInput!): Vehicle!
+  updateVehicle(updateVehicleInput: UpdateVehicleInput!): Vehicle!
+  removeVehicle(id: Int!): Vehicle!
+  createShipment(createShipmentInput: CreateShipmentInput!): Shipment!
+  updateShipment(updateShipmentInput: UpdateShipmentInput!): Shipment!
+  removeShipment(id: Int!): Shipment!
+  createTicket(createTicketInput: CreateTicketInput!): Ticket!
+  updateTicket(updateTicketInput: UpdateTicketInput!): Ticket!
+  removeTicket(id: Int!): Ticket!
+  createRoute(createRouteInput: CreateRouteInput!): Route!
+  updateRoute(updateRouteInput: UpdateRouteInput!): Route!
+  removeRoute(id: Int!): Route!
+  createRate(createRateInput: CreateRateInput!): Rate!
+  updateRate(updateRateInput: UpdateRateInput!): Rate!
+  removeRate(id: Int!): Rate!
+  createPayment(createPaymentInput: CreatePaymentInput!): Payment!
+  updatePayment(updatePaymentInput: UpdatePaymentInput!): Payment!
+  removePayment(id: Int!): Payment!
+  createOrder(createOrderInput: CreateOrderInput!): Order!
+  updateOrder(updateOrderInput: UpdateOrderInput!): Order!
+  removeOrder(id: Int!): Order!
+  createNotification(createNotificationInput: CreateNotificationInput!): Notification!
+  updateNotification(updateNotificationInput: UpdateNotificationInput!): Notification!
+  removeNotification(id: Int!): Notification!
+  createInventory(createInventoryInput: CreateInventoryInput!): Inventory!
+  updateInventory(updateInventoryInput: UpdateInventoryInput!): Inventory!
+  removeInventory(id: Int!): Inventory!
+  createDocument(createDocumentInput: CreateDocumentInput!): Document!
+  updateDocument(updateDocumentInput: UpdateDocumentInput!): Document!
+  removeDocument(id: Int!): Document!
+  createDelivery(createDeliveryInput: CreateDeliveryInput!): Delivery!
+  updateDelivery(updateDeliveryInput: UpdateDeliveryInput!): Delivery!
+  removeDelivery(id: Int!): Delivery!
+  createCalculation(createCalculationInput: CreateCalculationInput!): Calculation!
+  updateCalculation(updateCalculationInput: UpdateCalculationInput!): Calculation!
+  removeCalculation(id: Int!): Calculation!
 }
 
 input CreateUserInput {
   email: String!
   password: String!
+}
+
+input CreateVehicleInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateVehicleInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateShipmentInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateShipmentInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateTicketInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateTicketInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateRouteInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateRouteInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateRateInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateRateInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreatePaymentInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdatePaymentInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateOrderInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateOrderInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateNotificationInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateNotificationInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateInventoryInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateInventoryInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateDocumentInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateDocumentInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateDeliveryInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateDeliveryInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateCalculationInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateCalculationInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
 }

@@ -9,7 +9,10 @@ export class CalculationResolver {
   constructor(private readonly calculationService: CalculationService) {}
 
   @Mutation(() => Calculation)
-  createCalculation(@Args('createCalculationInput') createCalculationInput: CreateCalculationInput) {
+  createCalculation(
+    @Args('createCalculationInput')
+    createCalculationInput: CreateCalculationInput,
+  ) {
     return this.calculationService.create(createCalculationInput);
   }
 
@@ -24,8 +27,14 @@ export class CalculationResolver {
   }
 
   @Mutation(() => Calculation)
-  updateCalculation(@Args('updateCalculationInput') updateCalculationInput: UpdateCalculationInput) {
-    return this.calculationService.update(updateCalculationInput.id, updateCalculationInput);
+  updateCalculation(
+    @Args('updateCalculationInput')
+    updateCalculationInput: UpdateCalculationInput,
+  ) {
+    return this.calculationService.update(
+      updateCalculationInput.id,
+      updateCalculationInput,
+    );
   }
 
   @Mutation(() => Calculation)

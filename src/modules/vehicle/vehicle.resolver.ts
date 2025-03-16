@@ -9,7 +9,9 @@ export class VehicleResolver {
   constructor(private readonly vehicleService: VehicleService) {}
 
   @Mutation(() => Vehicle)
-  createVehicle(@Args('createVehicleInput') createVehicleInput: CreateVehicleInput) {
+  createVehicle(
+    @Args('createVehicleInput') createVehicleInput: CreateVehicleInput,
+  ) {
     return this.vehicleService.create(createVehicleInput);
   }
 
@@ -24,8 +26,13 @@ export class VehicleResolver {
   }
 
   @Mutation(() => Vehicle)
-  updateVehicle(@Args('updateVehicleInput') updateVehicleInput: UpdateVehicleInput) {
-    return this.vehicleService.update(updateVehicleInput.id, updateVehicleInput);
+  updateVehicle(
+    @Args('updateVehicleInput') updateVehicleInput: UpdateVehicleInput,
+  ) {
+    return this.vehicleService.update(
+      updateVehicleInput.id,
+      updateVehicleInput,
+    );
   }
 
   @Mutation(() => Vehicle)

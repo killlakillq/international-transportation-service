@@ -13,7 +13,7 @@ export class DeliveryService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} delivery`;
+    return { exampleField: id };
   }
 
   update(id: number, updateDeliveryInput: UpdateDeliveryInput) {

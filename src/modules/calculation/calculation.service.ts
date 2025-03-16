@@ -13,7 +13,7 @@ export class CalculationService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} calculation`;
+    return { exampleField: id };
   }
 
   update(id: number, updateCalculationInput: UpdateCalculationInput) {

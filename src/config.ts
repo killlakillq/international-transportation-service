@@ -16,7 +16,7 @@ const dbConfig: PostgresConnectionOptions = {
   url: process.env['DATABASE_URL'],
   entities: [join(__dirname, `modules/**/*${extname(__filename)}`)],
   extra: {
-    application_name: 'workshop',
+    application_name: 'transportation-service',
   },
   migrationsRun: true,
   migrations: [migrationsDir],
@@ -26,7 +26,7 @@ const dbConfig: PostgresConnectionOptions = {
 export default {
   logLevel: process.env['LOG_LEVEL'] as Level,
   env: process.env['ENV_NAME'],
-  applicationName: 'miniAppBack',
+  applicationName: 'transportation-service',
   version: process.env['VERSION'] || 'latest',
   http: {
     port: Number(process.env['PORT']),
