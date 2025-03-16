@@ -9,6 +9,19 @@ import { join } from 'node:path';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { GraphQLContext } from '@/common/interfaces/graphql-context.interface';
 import { OriginalError } from './common/interfaces/original-error.interface';
+import { VehicleModule } from './module/vehicle/vehicle.module';
+import { VehicleModule } from './modules/vehicle/vehicle.module';
+import { ShipmentModule } from './modules/shipment/shipment.module';
+import { TicketModule } from './modules/ticket/ticket.module';
+import { RouteModule } from './modules/route/route.module';
+import { RateModule } from './modules/rate/rate.module';
+import { PaymentModule } from './modules/payment/payment.module';
+import { OrderModule } from './modules/order/order.module';
+import { NotificationModule } from './modules/notification/notification.module';
+import { InventoryModule } from './modules/inventory/inventory.module';
+import { DocumentModule } from './modules/document/document.module';
+import { DeliveryModule } from './modules/delivery/delivery.module';
+import { CalculationModule } from './modules/calculation/calculation.module';
 
 @Module({
   imports: [
@@ -46,6 +59,18 @@ import { OriginalError } from './common/interfaces/original-error.interface';
       logger: queryLogger,
     }),
     UserModule,
+    VehicleModule,
+    ShipmentModule,
+    TicketModule,
+    RouteModule,
+    RateModule,
+    PaymentModule,
+    OrderModule,
+    NotificationModule,
+    InventoryModule,
+    DocumentModule,
+    DeliveryModule,
+    CalculationModule,
   ],
 })
 export class AppModule {}

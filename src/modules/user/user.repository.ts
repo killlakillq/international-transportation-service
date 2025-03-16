@@ -1,8 +1,8 @@
 import { BaseRepository } from '@/database/typeorm/base-repository';
-import { User } from '@/modules/user/user.entity';
+import { User } from '@/modules/user/entities/user.entity';
 import { Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
-import { CreateUserInput } from '@/modules/user/input/create-user.input';
+import { CreateUserInput } from '@/modules/user/dto/create-user.input';
 
 @Injectable()
 export class UserRepository extends BaseRepository<User> {

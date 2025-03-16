@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { UserRepository } from './user.repository';
-import { CreateUserInput } from '@/modules/user/input/create-user.input';
+import { CreateUserInput } from '@/modules/user/dto/create-user.input';
 import { EXCEPTION } from '@/common/constants/exception.constant';
 
 @Injectable()
