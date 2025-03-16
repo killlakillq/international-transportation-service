@@ -1,34 +1,56 @@
-import { Field, ObjectType } from '@nestjs/graphql';
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  Index,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { ObjectType, Field, ID, registerEnumType } from '@nestjs/graphql';
+import { Shipment } from '@/modules/shipment/entities/shipment.entity';
+import { Order } from '@/modules/order/entities/order.entity';
+
+export const Role = {
+  Customer: 'customer',
+  Driver: 'driver',
+  Admin: 'admin',
+} as const;
+
+export type Role = (typeof Role)[keyof typeof Role];
+
+registerEnumType(Role, {
+  name: 'Role',
+  description: 'The role of the user.',
+});
 
 @ObjectType()
 @Entity('users')
-@Index('email', ['email'], { unique: true })
 export class User {
-  @Field({ nullable: false })
+  @Field(() => ID, { nullable: false })
   @PrimaryGeneratedColumn('uuid')
   public id: string;
 
-  @Field({ nullable: false })
-  @Column({ type: 'varchar', length: 254 })
+  @Field()
+  @Column()
+  public name: string;
+
+  @Field()
+  @Column({ unique: true })
   public email: string;
 
-  @Field({ nullable: false })
-  @Column({ type: 'varchar', length: 254 })
+  @Column()
   public password: string;
 
-  @Field({ nullable: true })
-  @CreateDateColumn({ name: 'created_at' })
-  public createdDate: Date;
+  @Field()
+  @Column()
+  public phone: string;
 
-  @Field({ nullable: true })
-  @UpdateDateColumn({ name: 'updated_at' })
-  public updatedDate: Date;
+  @Field()
+  @Column({
+    type: 'enum',
+    enum: Role,
+    default: Role.Customer,
+  })
+  public role: string;
+
+  @Field(() => [Shipment])
+  @OneToMany(() => Shipment, (shipment) => shipment.user)
+  public shipments: Shipment[];
+
+  @Field(() => [Order])
+  @OneToMany(() => Order, (order) => order.user)
+  public orders: Order[];
 }

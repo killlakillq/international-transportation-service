@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateDeliveryInput } from './dto/create-delivery.input';
 import { UpdateDeliveryInput } from './dto/update-delivery.input';
+import { DeliveryStatus } from './entities/delivery.entity';
 
 @Injectable()
 export class DeliveryService {
@@ -13,7 +14,7 @@ export class DeliveryService {
   }
 
   findOne(id: number) {
-    return { exampleField: id };
+    return { id: id, status: DeliveryStatus.Delivered };
   }
 
   update(id: number, updateDeliveryInput: UpdateDeliveryInput) {

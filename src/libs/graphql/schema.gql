@@ -2,12 +2,51 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type User {
-  id: String!
-  email: String!
-  password: String!
-  createdDate: DateTime
-  updatedDate: DateTime
+type Route {
+  id: ID!
+  estimatedTime: String!
+}
+
+type Vehicle {
+  id: ID!
+  licensePlate: String!
+  vehicleType: String!
+  maxCapacity: Float!
+  driver: User!
+}
+
+type Shipment {
+  id: ID!
+  trackingNumber: String!
+  route: Route!
+  vehicle: Vehicle!
+  weight: Float!
+  status: ShipmentStatus!
+  user: User!
+}
+
+"""The status of the shipment."""
+enum ShipmentStatus {
+  Pending
+  Shipped
+  InTransit
+  Delivered
+  Canceled
+}
+
+type Order {
+  id: ID!
+  totalAmount: Float!
+  status: OrderStatus!
+  orderDate: DateTime!
+  user: User!
+}
+
+"""The status of the order."""
+enum OrderStatus {
+  Pending
+  Completed
+  Canceled
 }
 
 """
@@ -15,64 +54,107 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type Vehicle {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-type Shipment {
-  """Example field (placeholder)"""
-  exampleField: Int!
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  phone: String!
+  role: String!
+  shipments: [Shipment!]!
+  orders: [Order!]!
 }
 
 type Ticket {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  id: ID!
+  issue: String!
+  status: TicketStatus!
+  user: User!
+  createdAt: DateTime!
 }
 
-type Route {
-  """Example field (placeholder)"""
-  exampleField: Int!
+"""The status of the ticket."""
+enum TicketStatus {
+  Opened
+  Closed
+  InProgress
 }
 
 type Rate {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  id: ID!
+  pricePerKg: Float!
+  basePrice: Float!
+  route: Route!
 }
 
 type Payment {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  id: ID!
+  amount: Float!
+  status: PaymentStatus!
+  paymentMethod: String!
+  paymentDate: DateTime!
+  user: User!
+  shipment: Shipment!
 }
 
-type Order {
-  """Example field (placeholder)"""
-  exampleField: Int!
+"""The status of the payment."""
+enum PaymentStatus {
+  Paid
+  Failed
+  Pending
 }
 
 type Notification {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  id: ID!
+  message: String!
+  status: NotificationStatus!
+  createdAt: DateTime!
+  user: User!
+}
+
+"""The status of the notification."""
+enum NotificationStatus {
+  Unread
+  Read
 }
 
 type Inventory {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  id: ID!
+  productName: String!
+  quantity: Float!
+  weight: Float!
+  location: String!
 }
 
 type Document {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  id: ID!
+  fileName: String!
+  fileType: String!
+  url: String!
+  uploadedAt: DateTime!
 }
 
 type Delivery {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  id: ID!
+  deliveredAt: DateTime!
+  status: DeliveryStatus!
+  shipment: Shipment!
+  vehicle: Vehicle!
+}
+
+"""The status of the delivery."""
+enum DeliveryStatus {
+  Pending
+  InTransit
+  Delivered
+  Failed
 }
 
 type Calculation {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  id: ID!
+  weight: Float!
+  distance: Float!
+  cost: Float!
+  calculatedAt: DateTime!
 }
 
 type Query {
