@@ -1,35 +1,39 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { OrderService } from './order.service';
-import { Order } from './entities/order.entity';
-import { CreateOrderInput } from './dto/create-order.input';
-import { UpdateOrderInput } from './dto/update-order.input';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import { OrderService } from '@/modules/order/order.service';
+import { Order } from '@/modules/order/entities/order.entity';
+import { CreateOrderInput } from '@/modules/order/dto/create-order.input';
+import { UpdateOrderInput } from '@/modules/order/dto/update-order.input';
 
 @Resolver(() => Order)
 export class OrderResolver {
-  constructor(private readonly orderService: OrderService) {}
+  public constructor(private readonly orderService: OrderService) {}
 
-  @Mutation(() => Order)
-  createOrder(@Args('createOrderInput') createOrderInput: CreateOrderInput) {
+  @Mutation(() => Order, { name: 'createOrder' })
+  public async create(
+    @Args('createOrderInput') createOrderInput: CreateOrderInput,
+  ) {
     return this.orderService.create(createOrderInput);
   }
 
-  @Query(() => [Order], { name: 'order' })
-  findAll() {
-    return this.orderService.findAll();
+  @Query(() => [Order], { name: 'findOrders' })
+  public async find() {
+    return this.orderService.find();
   }
 
-  @Query(() => Order, { name: 'order' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.orderService.findOne(id);
+  @Query(() => Order, { name: 'findOrderById' })
+  public async findById(@Args('id') id: string) {
+    return this.orderService.findById(id);
   }
 
-  @Mutation(() => Order)
-  updateOrder(@Args('updateOrderInput') updateOrderInput: UpdateOrderInput) {
+  @Mutation(() => Order, { name: 'updateOrder' })
+  public async update(
+    @Args('updateOrderInput') updateOrderInput: UpdateOrderInput,
+  ) {
     return this.orderService.update(updateOrderInput.id, updateOrderInput);
   }
 
-  @Mutation(() => Order)
-  removeOrder(@Args('id', { type: () => Int }) id: number) {
-    return this.orderService.remove(id);
+  @Mutation(() => Order, { name: 'deleteOrder' })
+  public async delete(@Args('id') id: string) {
+    return this.orderService.delete(id);
   }
 }

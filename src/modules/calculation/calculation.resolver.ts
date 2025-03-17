@@ -1,33 +1,33 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { CalculationService } from './calculation.service';
-import { Calculation } from './entities/calculation.entity';
-import { CreateCalculationInput } from './dto/create-calculation.input';
-import { UpdateCalculationInput } from './dto/update-calculation.input';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import { CalculationService } from '@/modules/calculation/calculation.service';
+import { Calculation } from '@/modules/calculation/entities/calculation.entity';
+import { CreateCalculationInput } from '@/modules/calculation/dto/create-calculation.input';
+import { UpdateCalculationInput } from '@/modules/calculation/dto/update-calculation.input';
 
 @Resolver(() => Calculation)
 export class CalculationResolver {
-  constructor(private readonly calculationService: CalculationService) {}
+  public constructor(private readonly calculationService: CalculationService) {}
 
-  @Mutation(() => Calculation)
-  createCalculation(
+  @Mutation(() => Calculation, { name: 'createCalculation' })
+  public async create(
     @Args('createCalculationInput')
     createCalculationInput: CreateCalculationInput,
   ) {
     return this.calculationService.create(createCalculationInput);
   }
 
-  @Query(() => [Calculation], { name: 'calculation' })
-  findAll() {
-    return this.calculationService.findAll();
+  @Query(() => [Calculation], { name: 'findCalculations' })
+  public async find() {
+    return this.calculationService.find();
   }
 
-  @Query(() => Calculation, { name: 'calculation' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.calculationService.findOne(id);
+  @Query(() => Calculation, { name: 'findCalculationById' })
+  public async findById(@Args('id') id: string) {
+    return this.calculationService.findById(id);
   }
 
-  @Mutation(() => Calculation)
-  updateCalculation(
+  @Mutation(() => Calculation, { name: 'updateCalculation' })
+  public async update(
     @Args('updateCalculationInput')
     updateCalculationInput: UpdateCalculationInput,
   ) {
@@ -37,8 +37,8 @@ export class CalculationResolver {
     );
   }
 
-  @Mutation(() => Calculation)
-  removeCalculation(@Args('id', { type: () => Int }) id: number) {
-    return this.calculationService.remove(id);
+  @Mutation(() => Calculation, { name: 'deleteCalculation' })
+  public async delete(@Args('id') id: string) {
+    return this.calculationService.delete(id);
   }
 }

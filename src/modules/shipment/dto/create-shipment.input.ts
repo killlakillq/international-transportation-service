@@ -1,7 +1,9 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import { InputType, PickType } from '@nestjs/graphql';
+import { Shipment } from '@/modules/shipment/entities/shipment.entity';
 
 @InputType()
-export class CreateShipmentInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
-}
+export class CreateShipmentInput extends PickType(
+  Shipment,
+  ['status', 'trackingNumber', 'weight'] as const,
+  InputType,
+) {}

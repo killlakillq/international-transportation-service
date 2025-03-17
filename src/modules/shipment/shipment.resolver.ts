@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { ShipmentService } from './shipment.service';
 import { Shipment } from './entities/shipment.entity';
 import { CreateShipmentInput } from './dto/create-shipment.input';
@@ -6,30 +6,37 @@ import { UpdateShipmentInput } from './dto/update-shipment.input';
 
 @Resolver(() => Shipment)
 export class ShipmentResolver {
-  constructor(private readonly shipmentService: ShipmentService) {}
+  public constructor(private readonly shipmentService: ShipmentService) {}
 
-  @Mutation(() => Shipment)
-  createShipment(@Args('createShipmentInput') createShipmentInput: CreateShipmentInput) {
+  @Mutation(() => Shipment, { name: 'createShipment' })
+  public async create(
+    @Args('createShipmentInput') createShipmentInput: CreateShipmentInput,
+  ) {
     return this.shipmentService.create(createShipmentInput);
   }
 
-  @Query(() => [Shipment], { name: 'shipment' })
-  findAll() {
-    return this.shipmentService.findAll();
+  @Query(() => [Shipment], { name: 'findShipments' })
+  public async find() {
+    return this.shipmentService.find();
   }
 
-  @Query(() => Shipment, { name: 'shipment' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.shipmentService.findOne(id);
+  @Query(() => Shipment, { name: 'findShipmentById' })
+  public async findById(@Args('id') id: string) {
+    return this.shipmentService.findById(id);
   }
 
-  @Mutation(() => Shipment)
-  updateShipment(@Args('updateShipmentInput') updateShipmentInput: UpdateShipmentInput) {
-    return this.shipmentService.update(updateShipmentInput.id, updateShipmentInput);
+  @Mutation(() => Shipment, { name: 'updateShipment' })
+  public async update(
+    @Args('updateShipmentInput') updateShipmentInput: UpdateShipmentInput,
+  ) {
+    return this.shipmentService.update(
+      updateShipmentInput.id,
+      updateShipmentInput,
+    );
   }
 
-  @Mutation(() => Shipment)
-  removeShipment(@Args('id', { type: () => Int }) id: number) {
-    return this.shipmentService.remove(id);
+  @Mutation(() => Shipment, { name: 'deleteShipment' })
+  public delete(@Args('id') id: string) {
+    return this.shipmentService.delete(id);
   }
 }

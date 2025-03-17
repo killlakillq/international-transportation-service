@@ -1,26 +1,40 @@
-import { Injectable } from '@nestjs/common';
-import { CreateOrderInput } from './dto/create-order.input';
-import { UpdateOrderInput } from './dto/update-order.input';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { CreateOrderInput } from '@/modules/order/dto/create-order.input';
+import { UpdateOrderInput } from '@/modules/order/dto/update-order.input';
+import { OrderRepository } from '@/modules/order/order.repository';
+import { EXCEPTION } from '@/common/constants/exception.constant';
 
 @Injectable()
 export class OrderService {
-  create(createOrderInput: CreateOrderInput) {
-    return 'This action adds a new order';
+  public constructor(private readonly orderRepository: OrderRepository) {}
+
+  public async create(createOrderInput: CreateOrderInput) {
+    return this.orderRepository.createOrder(createOrderInput);
   }
 
-  findAll() {
-    return `This action returns all order`;
+  public async find() {
+    return this.orderRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} order`;
+  public async findById(id: string) {
+    const order = await this.orderRepository.findById(id);
+
+    if (!order) {
+      throw new NotFoundException(EXCEPTION.PAYMENT.NOT_FOUND);
+    }
+
+    return order;
   }
 
-  update(id: number, updateOrderInput: UpdateOrderInput) {
-    return `This action updates a #${id} order`;
+  public async update(id: string, updateOrderInput: UpdateOrderInput) {
+    const order = await this.findById(id);
+
+    return this.orderRepository.update(order.id, updateOrderInput);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} order`;
+  public async delete(id: string) {
+    const order = await this.findById(id);
+
+    return this.orderRepository.delete(order.id);
   }
 }

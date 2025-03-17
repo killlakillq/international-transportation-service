@@ -1,7 +1,9 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import { InputType, PickType } from '@nestjs/graphql';
+import { Rate } from '../entities/rate.entity';
 
 @InputType()
-export class CreateRateInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
-}
+export class CreateRateInput extends PickType(
+  Rate,
+  ['basePrice', 'pricePerKg'] as const,
+  InputType,
+) {}

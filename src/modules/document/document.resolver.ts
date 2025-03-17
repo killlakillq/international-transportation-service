@@ -1,35 +1,42 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { DocumentService } from './document.service';
-import { Document } from './entities/document.entity';
-import { CreateDocumentInput } from './dto/create-document.input';
-import { UpdateDocumentInput } from './dto/update-document.input';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import { DocumentService } from '@/modules/document/document.service';
+import { Document } from '@/modules/document/entities/document.entity';
+import { CreateDocumentInput } from '@/modules/document/dto/create-document.input';
+import { UpdateDocumentInput } from '@/modules/document/dto/update-document.input';
 
 @Resolver(() => Document)
 export class DocumentResolver {
-  constructor(private readonly documentService: DocumentService) {}
+  public constructor(private readonly documentService: DocumentService) {}
 
-  @Mutation(() => Document)
-  createDocument(@Args('createDocumentInput') createDocumentInput: CreateDocumentInput) {
+  @Mutation(() => Document, { name: 'createDocument' })
+  public async create(
+    @Args('createDocumentInput') createDocumentInput: CreateDocumentInput,
+  ) {
     return this.documentService.create(createDocumentInput);
   }
 
-  @Query(() => [Document], { name: 'document' })
-  findAll() {
-    return this.documentService.findAll();
+  @Query(() => [Document], { name: 'findDocuments' })
+  public async find() {
+    return this.documentService.find();
   }
 
-  @Query(() => Document, { name: 'document' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.documentService.findOne(id);
+  @Query(() => Document, { name: 'findDocumentById' })
+  public async findById(@Args('id') id: string) {
+    return this.documentService.findById(id);
   }
 
-  @Mutation(() => Document)
-  updateDocument(@Args('updateDocumentInput') updateDocumentInput: UpdateDocumentInput) {
-    return this.documentService.update(updateDocumentInput.id, updateDocumentInput);
+  @Mutation(() => Document, { name: 'updateDocument' })
+  public async update(
+    @Args('updateDocumentInput') updateDocumentInput: UpdateDocumentInput,
+  ) {
+    return this.documentService.update(
+      updateDocumentInput.id,
+      updateDocumentInput,
+    );
   }
 
-  @Mutation(() => Document)
-  removeDocument(@Args('id', { type: () => Int }) id: number) {
-    return this.documentService.remove(id);
+  @Mutation(() => Document, { name: 'deleteDocument' })
+  public async delete(@Args('id') id: string) {
+    return this.documentService.delete(id);
   }
 }

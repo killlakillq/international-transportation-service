@@ -1,5 +1,6 @@
+import { OrderStatus } from '@/common/interfaces/enums/order-status.enum';
 import { User } from '@/modules/user/entities/user.entity';
-import { ObjectType, Field, ID, registerEnumType } from '@nestjs/graphql';
+import { ObjectType, Field, ID } from '@nestjs/graphql';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -7,19 +8,6 @@ import {
   ManyToOne,
   type Relation,
 } from 'typeorm';
-
-export const OrderStatus = {
-  Pending: 'pending',
-  Completed: 'completed',
-  Canceled: 'canceled',
-} as const;
-
-export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus];
-
-registerEnumType(OrderStatus, {
-  name: 'OrderStatus',
-  description: 'The status of the order.',
-});
 
 @ObjectType()
 @Entity('orders')

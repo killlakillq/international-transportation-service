@@ -1,35 +1,39 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { RouteService } from './route.service';
-import { Route } from './entities/route.entity';
-import { CreateRouteInput } from './dto/create-route.input';
-import { UpdateRouteInput } from './dto/update-route.input';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import { RouteService } from '@/modules/route/route.service';
+import { Route } from '@/modules/route/entities/route.entity';
+import { CreateRouteInput } from '@/modules/route/dto/create-route.input';
+import { UpdateRouteInput } from '@/modules/route/dto/update-route.input';
 
 @Resolver(() => Route)
 export class RouteResolver {
-  constructor(private readonly routeService: RouteService) {}
+  public constructor(private readonly routeService: RouteService) {}
 
-  @Mutation(() => Route)
-  createRoute(@Args('createRouteInput') createRouteInput: CreateRouteInput) {
+  @Mutation(() => Route, { name: 'createRoute' })
+  public async create(
+    @Args('createRouteInput') createRouteInput: CreateRouteInput,
+  ) {
     return this.routeService.create(createRouteInput);
   }
 
-  @Query(() => [Route], { name: 'route' })
-  findAll() {
-    return this.routeService.findAll();
+  @Query(() => [Route], { name: 'findRoutes' })
+  public async find() {
+    return this.routeService.find();
   }
 
-  @Query(() => Route, { name: 'route' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.routeService.findOne(id);
+  @Query(() => Route, { name: 'findRouteById' })
+  public async findById(@Args('id') id: string) {
+    return this.routeService.findById(id);
   }
 
-  @Mutation(() => Route)
-  updateRoute(@Args('updateRouteInput') updateRouteInput: UpdateRouteInput) {
+  @Mutation(() => Route, { name: 'updateRoute' })
+  public async update(
+    @Args('updateRouteInput') updateRouteInput: UpdateRouteInput,
+  ) {
     return this.routeService.update(updateRouteInput.id, updateRouteInput);
   }
 
-  @Mutation(() => Route)
-  removeRoute(@Args('id', { type: () => Int }) id: number) {
-    return this.routeService.remove(id);
+  @Mutation(() => Route, { name: 'deleteRoute' })
+  public async delete(@Args('id') id: string) {
+    return this.routeService.delete(id);
   }
 }

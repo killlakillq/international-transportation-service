@@ -1,27 +1,40 @@
-import { Injectable } from '@nestjs/common';
-import { CreateDeliveryInput } from './dto/create-delivery.input';
-import { UpdateDeliveryInput } from './dto/update-delivery.input';
-import { DeliveryStatus } from './entities/delivery.entity';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { CreateDeliveryInput } from '@/modules/delivery/dto/create-delivery.input';
+import { UpdateDeliveryInput } from '@/modules/delivery/dto/update-delivery.input';
+import { DeliveryRepository } from '@/modules/delivery/delivery.repository';
+import { EXCEPTION } from '@/common/constants/exception.constant';
 
 @Injectable()
 export class DeliveryService {
-  create(createDeliveryInput: CreateDeliveryInput) {
-    return 'This action adds a new delivery';
+  public constructor(private readonly deliveryRepository: DeliveryRepository) {}
+
+  public async create(createDeliveryInput: CreateDeliveryInput) {
+    return this.deliveryRepository.createDelivery(createDeliveryInput);
   }
 
-  findAll() {
-    return `This action returns all delivery`;
+  public async find() {
+    return this.deliveryRepository.find();
   }
 
-  findOne(id: number) {
-    return { id: id, status: DeliveryStatus.Delivered };
+  public async findById(id: string) {
+    const delivery = await this.deliveryRepository.findById(id);
+
+    if (!delivery) {
+      throw new NotFoundException(EXCEPTION.DOCUMENT.NOT_FOUND);
+    }
+
+    return delivery;
   }
 
-  update(id: number, updateDeliveryInput: UpdateDeliveryInput) {
-    return `This action updates a #${id} delivery`;
+  public async update(id: string, updateDeliveryInput: UpdateDeliveryInput) {
+    const delivery = await this.findById(id);
+
+    return this.deliveryRepository.update(delivery.id, updateDeliveryInput);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} delivery`;
+  public async delete(id: string) {
+    const delivery = await this.findById(id);
+
+    return this.deliveryRepository.delete(delivery.id);
   }
 }

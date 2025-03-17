@@ -1,19 +1,7 @@
+import { TicketStatus } from '@/common/interfaces/enums/ticket-status.enum';
 import { User } from '@/modules/user/entities/user.entity';
-import { ObjectType, Field, ID, registerEnumType } from '@nestjs/graphql';
+import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-
-export const TicketStatus = {
-  Opened: 'opened',
-  Closed: 'closed',
-  InProgress: 'in_progress',
-} as const;
-
-export type TicketStatus = (typeof TicketStatus)[keyof typeof TicketStatus];
-
-registerEnumType(TicketStatus, {
-  name: 'TicketStatus',
-  description: 'The status of the ticket.',
-});
 
 @ObjectType()
 @Entity('tickets')

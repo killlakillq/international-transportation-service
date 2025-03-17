@@ -1,35 +1,42 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { DeliveryService } from './delivery.service';
-import { Delivery } from './entities/delivery.entity';
-import { CreateDeliveryInput } from './dto/create-delivery.input';
-import { UpdateDeliveryInput } from './dto/update-delivery.input';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import { DeliveryService } from '@/modules/delivery/delivery.service';
+import { Delivery } from '@/modules/delivery/entities/delivery.entity';
+import { CreateDeliveryInput } from '@/modules/delivery/dto/create-delivery.input';
+import { UpdateDeliveryInput } from '@/modules/delivery/dto/update-delivery.input';
 
 @Resolver(() => Delivery)
 export class DeliveryResolver {
-  constructor(private readonly deliveryService: DeliveryService) {}
+  public constructor(private readonly deliveryService: DeliveryService) {}
 
-  @Mutation(() => Delivery)
-  createDelivery(@Args('createDeliveryInput') createDeliveryInput: CreateDeliveryInput) {
+  @Mutation(() => Delivery, { name: 'createDelivery' })
+  public async create(
+    @Args('createDeliveryInput') createDeliveryInput: CreateDeliveryInput,
+  ) {
     return this.deliveryService.create(createDeliveryInput);
   }
 
-  @Query(() => [Delivery], { name: 'delivery' })
-  findAll() {
-    return this.deliveryService.findAll();
+  @Query(() => [Delivery], { name: 'findDeliveries' })
+  public async find() {
+    return this.deliveryService.find();
   }
 
-  @Query(() => Delivery, { name: 'delivery' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.deliveryService.findOne(id);
+  @Query(() => Delivery, { name: 'findDeliveryById' })
+  public async findById(@Args('id') id: string) {
+    return this.deliveryService.findById(id);
   }
 
-  @Mutation(() => Delivery)
-  updateDelivery(@Args('updateDeliveryInput') updateDeliveryInput: UpdateDeliveryInput) {
-    return this.deliveryService.update(updateDeliveryInput.id, updateDeliveryInput);
+  @Mutation(() => Delivery, { name: 'updateDelivery' })
+  public async update(
+    @Args('updateDeliveryInput') updateDeliveryInput: UpdateDeliveryInput,
+  ) {
+    return this.deliveryService.update(
+      updateDeliveryInput.id,
+      updateDeliveryInput,
+    );
   }
 
-  @Mutation(() => Delivery)
-  removeDelivery(@Args('id', { type: () => Int }) id: number) {
-    return this.deliveryService.remove(id);
+  @Mutation(() => Delivery, { name: 'deleteDelivery' })
+  public async delete(@Args('id') id: string) {
+    return this.deliveryService.delete(id);
   }
 }

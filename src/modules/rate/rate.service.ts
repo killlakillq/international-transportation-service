@@ -1,26 +1,40 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateRateInput } from './dto/create-rate.input';
 import { UpdateRateInput } from './dto/update-rate.input';
+import { RateRepository } from './rate.repository';
+import { EXCEPTION } from '@/common/constants/exception.constant';
 
 @Injectable()
 export class RateService {
-  create(createRateInput: CreateRateInput) {
-    return 'This action adds a new rate';
+  public constructor(private readonly rateRepository: RateRepository) {}
+
+  public async create(createRateInput: CreateRateInput) {
+    return this.rateRepository.createRate(createRateInput);
   }
 
-  findAll() {
-    return `This action returns all rate`;
+  public async find() {
+    return this.rateRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} rate`;
+  public async findById(id: string) {
+    const rate = await this.rateRepository.findById(id);
+
+    if (!rate) {
+      throw new NotFoundException(EXCEPTION.RATE.NOT_FOUND);
+    }
+
+    return rate;
   }
 
-  update(id: number, updateRateInput: UpdateRateInput) {
-    return `This action updates a #${id} rate`;
+  public async update(id: string, updateRateInput: UpdateRateInput) {
+    const rate = await this.findById(id);
+
+    return this.rateRepository.update(rate.id, updateRateInput);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} rate`;
+  public async delete(id: string) {
+    const rate = await this.findById(id);
+
+    return this.rateRepository.delete(rate.id);
   }
 }

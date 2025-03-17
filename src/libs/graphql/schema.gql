@@ -2,11 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Route {
-  id: ID!
-  estimatedTime: String!
-}
-
 type Vehicle {
   id: ID!
   licensePlate: String!
@@ -15,14 +10,44 @@ type Vehicle {
   driver: User!
 }
 
+type Delivery {
+  id: ID!
+  deliveredAt: DateTime!
+  status: DeliveryStatus!
+  shipment: Shipment!
+  vehicle: Vehicle!
+  route: Route!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+"""The status of the delivery."""
+enum DeliveryStatus {
+  Pending
+  InTransit
+  Delivered
+  Failed
+}
+
+type Route {
+  id: ID!
+  estimatedTime: String!
+  from: String!
+  to: String!
+  deliveries: [Delivery!]!
+}
+
 type Shipment {
   id: ID!
   trackingNumber: String!
-  route: Route!
-  vehicle: Vehicle!
   weight: Float!
   status: ShipmentStatus!
   user: User!
+  route: Route!
+  vehicle: Vehicle!
 }
 
 """The status of the shipment."""
@@ -49,17 +74,13 @@ enum OrderStatus {
   Canceled
 }
 
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
 type User {
   id: ID!
   name: String!
   email: String!
   phone: String!
   role: String!
+  createdAt: DateTime!
   shipments: [Shipment!]!
   orders: [Order!]!
 }
@@ -133,22 +154,6 @@ type Document {
   uploadedAt: DateTime!
 }
 
-type Delivery {
-  id: ID!
-  deliveredAt: DateTime!
-  status: DeliveryStatus!
-  shipment: Shipment!
-  vehicle: Vehicle!
-}
-
-"""The status of the delivery."""
-enum DeliveryStatus {
-  Pending
-  InTransit
-  Delivered
-  Failed
-}
-
 type Calculation {
   id: ID!
   weight: Float!
@@ -158,194 +163,217 @@ type Calculation {
 }
 
 type Query {
-  user(id: String!): User!
-  vehicle(id: Int!): Vehicle!
-  shipment(id: Int!): Shipment!
-  ticket(id: Int!): Ticket!
-  route(id: Int!): Route!
-  rate(id: Int!): Rate!
-  payment(id: Int!): Payment!
-  order(id: Int!): Order!
-  notification(id: Int!): Notification!
-  inventory(id: Int!): Inventory!
-  document(id: Int!): Document!
-  delivery(id: Int!): Delivery!
-  calculation(id: Int!): Calculation!
+  findUsers(id: String!): User!
+  findVehicles: [Vehicle!]!
+  findVehicleById(id: String!): Vehicle!
+  findShipments: [Shipment!]!
+  findShipmentById(id: String!): Shipment!
+  findTickets: [Ticket!]!
+  findTicketById(id: String!): Ticket!
+  findRoutes: [Route!]!
+  findRouteById(id: String!): Route!
+  findRates: [Rate!]!
+  findRateById(id: String!): Rate!
+  findPayments: [Payment!]!
+  findPaymentById(id: String!): Payment!
+  findOrders: [Order!]!
+  findOrderById(id: String!): Order!
+  findNotifications: [Notification!]!
+  findNotificationById(id: String!): Notification!
+  findInventories: [Inventory!]!
+  findInventoryById(id: String!): Inventory!
+  findDocuments: [Document!]!
+  findDocumentById(id: String!): Document!
+  findDeliveries: [Delivery!]!
+  findDeliveryById(id: String!): Delivery!
+  findCalculations: [Calculation!]!
+  findCalculationById(id: String!): Calculation!
 }
 
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   createVehicle(createVehicleInput: CreateVehicleInput!): Vehicle!
   updateVehicle(updateVehicleInput: UpdateVehicleInput!): Vehicle!
-  removeVehicle(id: Int!): Vehicle!
+  deleteVehicle(id: String!): Vehicle!
   createShipment(createShipmentInput: CreateShipmentInput!): Shipment!
   updateShipment(updateShipmentInput: UpdateShipmentInput!): Shipment!
-  removeShipment(id: Int!): Shipment!
+  deleteShipment(id: String!): Shipment!
   createTicket(createTicketInput: CreateTicketInput!): Ticket!
   updateTicket(updateTicketInput: UpdateTicketInput!): Ticket!
-  removeTicket(id: Int!): Ticket!
+  deleteTicket(id: String!): Ticket!
   createRoute(createRouteInput: CreateRouteInput!): Route!
   updateRoute(updateRouteInput: UpdateRouteInput!): Route!
-  removeRoute(id: Int!): Route!
+  deleteRoute(id: String!): Route!
   createRate(createRateInput: CreateRateInput!): Rate!
   updateRate(updateRateInput: UpdateRateInput!): Rate!
-  removeRate(id: Int!): Rate!
+  deleteRate(id: String!): Rate!
   createPayment(createPaymentInput: CreatePaymentInput!): Payment!
   updatePayment(updatePaymentInput: UpdatePaymentInput!): Payment!
-  removePayment(id: Int!): Payment!
+  deletePayment(id: String!): Payment!
   createOrder(createOrderInput: CreateOrderInput!): Order!
   updateOrder(updateOrderInput: UpdateOrderInput!): Order!
-  removeOrder(id: Int!): Order!
+  deleteOrder(id: String!): Order!
   createNotification(createNotificationInput: CreateNotificationInput!): Notification!
   updateNotification(updateNotificationInput: UpdateNotificationInput!): Notification!
-  removeNotification(id: Int!): Notification!
+  deleteNotification(id: String!): Notification!
   createInventory(createInventoryInput: CreateInventoryInput!): Inventory!
   updateInventory(updateInventoryInput: UpdateInventoryInput!): Inventory!
-  removeInventory(id: Int!): Inventory!
+  deleteInventory(id: String!): Inventory!
   createDocument(createDocumentInput: CreateDocumentInput!): Document!
   updateDocument(updateDocumentInput: UpdateDocumentInput!): Document!
-  removeDocument(id: Int!): Document!
+  deleteDocument(id: String!): Document!
   createDelivery(createDeliveryInput: CreateDeliveryInput!): Delivery!
   updateDelivery(updateDeliveryInput: UpdateDeliveryInput!): Delivery!
-  removeDelivery(id: Int!): Delivery!
+  deleteDelivery(id: String!): Delivery!
   createCalculation(createCalculationInput: CreateCalculationInput!): Calculation!
   updateCalculation(updateCalculationInput: UpdateCalculationInput!): Calculation!
-  removeCalculation(id: Int!): Calculation!
+  deleteCalculation(id: String!): Calculation!
 }
 
 input CreateUserInput {
   email: String!
-  password: String!
 }
 
 input CreateVehicleInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  licensePlate: String!
+  vehicleType: String!
+  maxCapacity: Float!
 }
 
 input UpdateVehicleInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  licensePlate: String
+  vehicleType: String
+  maxCapacity: Float
+  id: String!
 }
 
 input CreateShipmentInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  trackingNumber: String!
+  weight: Float!
+  status: ShipmentStatus!
 }
 
 input UpdateShipmentInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  trackingNumber: String
+  weight: Float
+  status: ShipmentStatus
+  id: String!
 }
 
 input CreateTicketInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  issue: String!
+  status: TicketStatus!
 }
 
 input UpdateTicketInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  issue: String
+  status: TicketStatus
+  id: String!
 }
 
 input CreateRouteInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  estimatedTime: String!
+  from: String!
+  to: String!
 }
 
 input UpdateRouteInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  estimatedTime: String
+  from: String
+  to: String
+  id: String!
 }
 
 input CreateRateInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  pricePerKg: Float!
+  basePrice: Float!
 }
 
 input UpdateRateInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  pricePerKg: Float
+  basePrice: Float
+  id: String!
 }
 
 input CreatePaymentInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  amount: Float!
+  status: PaymentStatus!
+  paymentMethod: String!
 }
 
 input UpdatePaymentInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  amount: Float
+  status: PaymentStatus
+  paymentMethod: String
+  id: String!
 }
 
 input CreateOrderInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  totalAmount: Float!
+  status: OrderStatus!
 }
 
 input UpdateOrderInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  totalAmount: Float
+  status: OrderStatus
+  id: String!
 }
 
 input CreateNotificationInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  message: String!
 }
 
 input UpdateNotificationInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  message: String
+  id: String!
 }
 
 input CreateInventoryInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  productName: String!
+  quantity: Float!
+  weight: Float!
+  location: String!
 }
 
 input UpdateInventoryInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  productName: String
+  quantity: Float
+  weight: Float
+  location: String
+  id: String!
 }
 
 input CreateDocumentInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  fileName: String!
+  fileType: String!
+  url: String!
 }
 
 input UpdateDocumentInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  fileName: String
+  fileType: String
+  url: String
+  id: String!
 }
 
 input CreateDeliveryInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  status: DeliveryStatus!
 }
 
 input UpdateDeliveryInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  status: DeliveryStatus
+  id: String!
 }
 
 input CreateCalculationInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  weight: Float!
+  distance: Float!
+  cost: Float!
 }
 
 input UpdateCalculationInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  weight: Float
+  distance: Float
+  cost: Float
+  id: String!
 }

@@ -1,35 +1,46 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { NotificationService } from './notification.service';
-import { Notification } from './entities/notification.entity';
-import { CreateNotificationInput } from './dto/create-notification.input';
-import { UpdateNotificationInput } from './dto/update-notification.input';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import { NotificationService } from '@/modules/notification/notification.service';
+import { Notification } from '@/modules/notification/entities/notification.entity';
+import { CreateNotificationInput } from '@/modules/notification/dto/create-notification.input';
+import { UpdateNotificationInput } from '@/modules/notification/dto/update-notification.input';
 
 @Resolver(() => Notification)
 export class NotificationResolver {
-  constructor(private readonly notificationService: NotificationService) {}
+  public constructor(
+    private readonly notificationService: NotificationService,
+  ) {}
 
-  @Mutation(() => Notification)
-  createNotification(@Args('createNotificationInput') createNotificationInput: CreateNotificationInput) {
+  @Mutation(() => Notification, { name: 'createNotification' })
+  public async create(
+    @Args('createNotificationInput')
+    createNotificationInput: CreateNotificationInput,
+  ) {
     return this.notificationService.create(createNotificationInput);
   }
 
-  @Query(() => [Notification], { name: 'notification' })
-  findAll() {
-    return this.notificationService.findAll();
+  @Query(() => [Notification], { name: 'findNotifications' })
+  public async find() {
+    return this.notificationService.find();
   }
 
-  @Query(() => Notification, { name: 'notification' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.notificationService.findOne(id);
+  @Query(() => Notification, { name: 'findNotificationById' })
+  public async findById(@Args('id') id: string) {
+    return this.notificationService.findById(id);
   }
 
-  @Mutation(() => Notification)
-  updateNotification(@Args('updateNotificationInput') updateNotificationInput: UpdateNotificationInput) {
-    return this.notificationService.update(updateNotificationInput.id, updateNotificationInput);
+  @Mutation(() => Notification, { name: 'updateNotification' })
+  public async update(
+    @Args('updateNotificationInput')
+    updateNotificationInput: UpdateNotificationInput,
+  ) {
+    return this.notificationService.update(
+      updateNotificationInput.id,
+      updateNotificationInput,
+    );
   }
 
-  @Mutation(() => Notification)
-  removeNotification(@Args('id', { type: () => Int }) id: number) {
-    return this.notificationService.remove(id);
+  @Mutation(() => Notification, { name: 'deleteNotification' })
+  public async delete(@Args('id') id: string) {
+    return this.notificationService.delete(id);
   }
 }

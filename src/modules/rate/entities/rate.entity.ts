@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { ObjectType, Field, ID, Float } from '@nestjs/graphql';
 import { Route } from '@/modules/route/entities/route.entity';
 
 @ObjectType()
@@ -9,11 +9,11 @@ export class Rate {
   @PrimaryGeneratedColumn('uuid')
   public id: string;
 
-  @Field()
+  @Field(() => Float)
   @Column({ type: 'float', name: 'price_per_kg' })
   public pricePerKg: number;
 
-  @Field()
+  @Field(() => Float)
   @Column({ type: 'float', name: 'base_price' })
   public basePrice: number;
 

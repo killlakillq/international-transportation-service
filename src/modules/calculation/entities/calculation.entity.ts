@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Field, Float, ID, ObjectType } from '@nestjs/graphql';
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @ObjectType()
@@ -8,15 +8,15 @@ export class Calculation {
   @PrimaryGeneratedColumn('uuid')
   public id: string;
 
-  @Field()
+  @Field(() => Float)
   @Column({ type: 'float' })
   public weight: number;
 
-  @Field()
+  @Field(() => Float)
   @Column({ type: 'float' })
   public distance: number;
 
-  @Field()
+  @Field(() => Float)
   @Column({ type: 'float' })
   public cost: number;
 

@@ -1,20 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { ObjectType, Field, ID, registerEnumType } from '@nestjs/graphql';
+import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Shipment } from '@/modules/shipment/entities/shipment.entity';
 import { Order } from '@/modules/order/entities/order.entity';
-
-export const Role = {
-  Customer: 'customer',
-  Driver: 'driver',
-  Admin: 'admin',
-} as const;
-
-export type Role = (typeof Role)[keyof typeof Role];
-
-registerEnumType(Role, {
-  name: 'Role',
-  description: 'The role of the user.',
-});
+import { Role } from '@/common/interfaces/enums/role.enum';
 
 @ObjectType()
 @Entity('users')
@@ -45,6 +33,14 @@ export class User {
     default: Role.Customer,
   })
   public role: string;
+
+  @Field()
+  @Column({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    name: 'created_at',
+  })
+  public createdAt: Date;
 
   @Field(() => [Shipment])
   @OneToMany(() => Shipment, (shipment) => shipment.user)

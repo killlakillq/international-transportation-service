@@ -1,7 +1,9 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import { InputType, PickType } from '@nestjs/graphql';
+import { Document } from '@/modules/document/entities/document.entity';
 
 @InputType()
-export class CreateDocumentInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
-}
+export class CreateDocumentInput extends PickType(
+  Document,
+  ['fileName', 'fileType', 'url'] as const,
+  InputType,
+) {}

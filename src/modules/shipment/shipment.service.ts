@@ -1,26 +1,40 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateShipmentInput } from './dto/create-shipment.input';
 import { UpdateShipmentInput } from './dto/update-shipment.input';
+import { ShipmentRepository } from './shipment.repository';
+import { EXCEPTION } from '@/common/constants/exception.constant';
 
 @Injectable()
 export class ShipmentService {
-  create(createShipmentInput: CreateShipmentInput) {
-    return 'This action adds a new shipment';
+  public constructor(private readonly shipmentRepository: ShipmentRepository) {}
+
+  public async create(createShipmentInput: CreateShipmentInput) {
+    return this.shipmentRepository.createShipment(createShipmentInput);
   }
 
-  findAll() {
-    return `This action returns all shipment`;
+  public async find() {
+    return this.shipmentRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} shipment`;
+  public async findById(id: string) {
+    const shipment = await this.shipmentRepository.findById(id);
+
+    if (!shipment) {
+      throw new NotFoundException(EXCEPTION.SHIPMENT.NOT_FOUND);
+    }
+
+    return shipment;
   }
 
-  update(id: number, updateShipmentInput: UpdateShipmentInput) {
-    return `This action updates a #${id} shipment`;
+  public async update(id: string, updateShipmentInput: UpdateShipmentInput) {
+    const shipment = await this.findById(id);
+
+    return this.shipmentRepository.update(shipment.id, updateShipmentInput);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} shipment`;
+  public async delete(id: string) {
+    const shipment = await this.findById(id);
+
+    return this.shipmentRepository.delete(shipment.id);
   }
 }

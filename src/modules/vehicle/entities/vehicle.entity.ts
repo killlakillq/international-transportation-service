@@ -7,7 +7,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { User } from '@/modules/user/entities/user.entity';
-import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { ObjectType, Field, ID, Float } from '@nestjs/graphql';
 
 @ObjectType()
 @Entity('vechicles')
@@ -24,7 +24,7 @@ export class Vehicle {
   @Column({ name: 'vehicle_type' })
   public vehicleType: string;
 
-  @Field()
+  @Field(() => Float)
   @Column({ type: 'float', name: 'max_capacity' })
   public maxCapacity: number;
 

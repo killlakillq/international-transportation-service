@@ -1,22 +1,15 @@
+import { DeliveryStatus } from '@/common/interfaces/enums/delivery-status.enum';
+import { Route } from '@/modules/route/entities/route.entity';
 import { Shipment } from '@/modules/shipment/entities/shipment.entity';
 import { Vehicle } from '@/modules/vehicle/entities/vehicle.entity';
-import { Field, ID, ObjectType, registerEnumType } from '@nestjs/graphql';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-
-export const DeliveryStatus = {
-  Pending: 'pending',
-  InTransit: 'in_transit',
-  Delivered: 'delivered',
-  Failed: 'failed',
-} as const;
-
-export type DeliveryStatus =
-  (typeof DeliveryStatus)[keyof typeof DeliveryStatus];
-
-registerEnumType(DeliveryStatus, {
-  name: 'DeliveryStatus',
-  description: 'The status of the delivery.',
-});
+import { Field, ID, ObjectType } from '@nestjs/graphql';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  type Relation,
+} from 'typeorm';
 
 @ObjectType()
 @Entity('deliveries')
@@ -25,7 +18,7 @@ export class Delivery {
   @PrimaryGeneratedColumn('uuid')
   public id: string;
 
-  @Field()
+  @Field(() => Date)
   @Column({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
@@ -33,7 +26,7 @@ export class Delivery {
   })
   public deliveredAt: Date;
 
-  @Field()
+  @Field(() => DeliveryStatus)
   @Column({
     type: 'enum',
     enum: DeliveryStatus,
@@ -41,11 +34,15 @@ export class Delivery {
   })
   public status: DeliveryStatus;
 
-  @Field()
+  @Field(() => Shipment)
   @ManyToOne(() => Shipment)
-  public shipment: Shipment;
+  public shipment: Relation<Shipment>;
 
-  @Field()
+  @Field(() => Vehicle)
   @ManyToOne(() => Vehicle)
-  public vehicle: Vehicle;
+  public vehicle: Relation<Vehicle>;
+
+  @Field(() => Route)
+  @ManyToOne(() => Route, (route) => route.deliveries)
+  public route: Relation<Route>;
 }

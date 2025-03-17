@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
-import { RouteService } from './route.service';
-import { RouteResolver } from './route.resolver';
+import { RouteService } from '@/modules/route/route.service';
+import { RouteResolver } from '@/modules/route/route.resolver';
+import { RouteRepository } from '@/modules/route/route.repository';
 
 @Module({
-  providers: [RouteResolver, RouteService],
+  providers: [RouteResolver, RouteService, RouteRepository],
 })
 export class RouteModule {}

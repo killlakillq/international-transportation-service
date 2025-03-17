@@ -1,7 +1,9 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import { InputType, PickType } from '@nestjs/graphql';
+import { Order } from '../entities/order.entity';
 
 @InputType()
-export class CreateOrderInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
-}
+export class CreateOrderInput extends PickType(
+  Order,
+  ['status', 'totalAmount'] as const,
+  InputType,
+) {}

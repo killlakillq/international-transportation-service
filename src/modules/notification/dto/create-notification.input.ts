@@ -1,7 +1,9 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import { InputType, PickType } from '@nestjs/graphql';
+import { Notification } from '@/modules/notification/entities/notification.entity';
 
 @InputType()
-export class CreateNotificationInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
-}
+export class CreateNotificationInput extends PickType(
+  Notification,
+  ['message', 'message'],
+  InputType,
+) {}

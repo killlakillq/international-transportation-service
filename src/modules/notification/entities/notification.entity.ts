@@ -1,19 +1,7 @@
+import { NotificationStatus } from '@/common/interfaces/enums/notification-status.enum';
 import { User } from '@/modules/user/entities/user.entity';
-import { ObjectType, Field, ID, registerEnumType } from '@nestjs/graphql';
+import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-
-export const NotificationStatus = {
-  Unread: 'unread',
-  Read: 'read',
-};
-
-export type NotificationStatus =
-  (typeof NotificationStatus)[keyof typeof NotificationStatus];
-
-registerEnumType(NotificationStatus, {
-  name: 'NotificationStatus',
-  description: 'The status of the notification.',
-});
 
 @ObjectType()
 @Entity('notifications')

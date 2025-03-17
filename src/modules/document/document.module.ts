@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
-import { DocumentService } from './document.service';
-import { DocumentResolver } from './document.resolver';
+import { DocumentService } from '@/modules/document/document.service';
+import { DocumentResolver } from '@/modules/document/document.resolver';
+import { DocumentRepository } from '@/modules/document/document.repository';
 
 @Module({
-  providers: [DocumentResolver, DocumentService],
+  providers: [DocumentResolver, DocumentService, DocumentRepository],
 })
 export class DocumentModule {}

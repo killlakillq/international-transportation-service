@@ -14,7 +14,7 @@ export class UserResolver {
     return this.userService.create(createUserInput);
   }
 
-  @Query(() => User, { name: 'user' })
+  @Query(() => User, { name: 'findUsers' })
   public async findById(@Args('id') id: string) {
     return this.userService.findById(id);
   }

@@ -1,7 +1,9 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import { InputType, PickType } from '@nestjs/graphql';
+import { Route } from '@/modules/route/entities/route.entity';
 
 @InputType()
-export class CreateRouteInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
-}
+export class CreateRouteInput extends PickType(
+  Route,
+  ['estimatedTime', 'from', 'to'] as const,
+  InputType,
+) {}

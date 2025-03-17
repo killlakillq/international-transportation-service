@@ -21,6 +21,7 @@ import { InventoryModule } from '@/modules/inventory/inventory.module';
 import { DocumentModule } from '@/modules/document/document.module';
 import { DeliveryModule } from '@/modules/delivery/delivery.module';
 import { CalculationModule } from '@/modules/calculation/calculation.module';
+import { AuthModule } from '@/modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -70,6 +71,7 @@ import { CalculationModule } from '@/modules/calculation/calculation.module';
     DocumentModule,
     DeliveryModule,
     CalculationModule,
+    AuthModule,
   ],
 })
 export class AppModule {}

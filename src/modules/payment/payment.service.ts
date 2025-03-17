@@ -1,26 +1,40 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePaymentInput } from './dto/create-payment.input';
 import { UpdatePaymentInput } from './dto/update-payment.input';
+import { PaymentRepository } from './payment.repository';
+import { EXCEPTION } from '@/common/constants/exception.constant';
 
 @Injectable()
 export class PaymentService {
-  create(createPaymentInput: CreatePaymentInput) {
-    return 'This action adds a new payment';
+  public constructor(private readonly paymentRepository: PaymentRepository) {}
+
+  public async create(createPaymentInput: CreatePaymentInput) {
+    return this.paymentRepository.createPayment(createPaymentInput);
   }
 
-  findAll() {
-    return `This action returns all payment`;
+  public async find() {
+    return this.paymentRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} payment`;
+  public async findById(id: string) {
+    const payment = await this.paymentRepository.findById(id);
+
+    if (!payment) {
+      throw new NotFoundException(EXCEPTION.PAYMENT.NOT_FOUND);
+    }
+
+    return payment;
   }
 
-  update(id: number, updatePaymentInput: UpdatePaymentInput) {
-    return `This action updates a #${id} payment`;
+  public async update(id: string, updatePaymentInput: UpdatePaymentInput) {
+    const payment = await this.findById(id);
+
+    return this.paymentRepository.update(payment.id, updatePaymentInput);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} payment`;
+  public async delete(id: string) {
+    const payment = await this.findById(id);
+
+    return this.paymentRepository.delete(payment.id);
   }
 }

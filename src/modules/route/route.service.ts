@@ -1,26 +1,40 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateRouteInput } from './dto/create-route.input';
 import { UpdateRouteInput } from './dto/update-route.input';
+import { RouteRepository } from './route.repository';
+import { EXCEPTION } from '@/common/constants/exception.constant';
 
 @Injectable()
 export class RouteService {
-  create(createRouteInput: CreateRouteInput) {
-    return 'This action adds a new route';
+  public constructor(private readonly routeRepository: RouteRepository) {}
+
+  public async create(createRouteInput: CreateRouteInput) {
+    return this.routeRepository.createRoute(createRouteInput);
   }
 
-  findAll() {
-    return `This action returns all route`;
+  public async find() {
+    return this.routeRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} route`;
+  public async findById(id: string) {
+    const route = await this.routeRepository.findById(id);
+
+    if (!route) {
+      throw new NotFoundException(EXCEPTION.ROUTE.NOT_FOUND);
+    }
+
+    return route;
   }
 
-  update(id: number, updateRouteInput: UpdateRouteInput) {
-    return `This action updates a #${id} route`;
+  public async update(id: string, updateRouteInput: UpdateRouteInput) {
+    const route = await this.findById(id);
+
+    return this.routeRepository.update(route.id, updateRouteInput);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} route`;
+  public async delete(id: string) {
+    const route = await this.findById(id);
+
+    return this.routeRepository.delete(route.id);
   }
 }

@@ -1,26 +1,50 @@
-import { Injectable } from '@nestjs/common';
-import { CreateNotificationInput } from './dto/create-notification.input';
-import { UpdateNotificationInput } from './dto/update-notification.input';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { CreateNotificationInput } from '@/modules/notification/dto/create-notification.input';
+import { UpdateNotificationInput } from '@/modules/notification/dto/update-notification.input';
+import { NotificationRepository } from '@/modules/notification/notification.repository';
+import { EXCEPTION } from '@/common/constants/exception.constant';
 
 @Injectable()
 export class NotificationService {
-  create(createNotificationInput: CreateNotificationInput) {
-    return 'This action adds a new notification';
+  public constructor(
+    private readonly notificationRepository: NotificationRepository,
+  ) {}
+
+  public async create(createNotificationInput: CreateNotificationInput) {
+    return this.notificationRepository.createNotification(
+      createNotificationInput,
+    );
   }
 
-  findAll() {
-    return `This action returns all notification`;
+  public async find() {
+    return this.notificationRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} notification`;
+  public async findById(id: string) {
+    const notification = await this.notificationRepository.findById(id);
+
+    if (!notification) {
+      throw new NotFoundException(EXCEPTION.RATE.NOT_FOUND);
+    }
+
+    return notification;
   }
 
-  update(id: number, updateNotificationInput: UpdateNotificationInput) {
-    return `This action updates a #${id} notification`;
+  public async update(
+    id: string,
+    updateNotificationInput: UpdateNotificationInput,
+  ) {
+    const notification = await this.findById(id);
+
+    return this.notificationRepository.update(
+      notification.id,
+      updateNotificationInput,
+    );
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} notification`;
+  public async delete(id: string) {
+    const notification = await this.findById(id);
+
+    return this.notificationRepository.delete(notification.id);
   }
 }

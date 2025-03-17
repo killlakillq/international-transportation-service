@@ -1,26 +1,42 @@
-import { Injectable } from '@nestjs/common';
-import { CreateInventoryInput } from './dto/create-inventory.input';
-import { UpdateInventoryInput } from './dto/update-inventory.input';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { CreateInventoryInput } from '@/modules/inventory/dto/create-inventory.input';
+import { UpdateInventoryInput } from '@/modules/inventory/dto/update-inventory.input';
+import { InventoryRepository } from '@/modules/inventory/inventory.repository';
+import { EXCEPTION } from '@/common/constants/exception.constant';
 
 @Injectable()
 export class InventoryService {
-  create(createInventoryInput: CreateInventoryInput) {
-    return 'This action adds a new inventory';
+  public constructor(
+    private readonly inventoryRepository: InventoryRepository,
+  ) {}
+
+  public async create(createInventoryInput: CreateInventoryInput) {
+    return this.inventoryRepository.createInventory(createInventoryInput);
   }
 
-  findAll() {
-    return `This action returns all inventory`;
+  public async find() {
+    return this.inventoryRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} inventory`;
+  public async findById(id: string) {
+    const inventory = await this.inventoryRepository.findById(id);
+
+    if (!inventory) {
+      throw new NotFoundException(EXCEPTION.INVENTORY.NOT_FOUND);
+    }
+
+    return inventory;
   }
 
-  update(id: number, updateInventoryInput: UpdateInventoryInput) {
-    return `This action updates a #${id} inventory`;
+  public async update(id: string, updateInventoryInput: UpdateInventoryInput) {
+    const inventory = await this.findById(id);
+
+    return this.inventoryRepository.update(inventory.id, updateInventoryInput);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} inventory`;
+  public async delete(id: string) {
+    const inventory = await this.findById(id);
+
+    return this.inventoryRepository.delete(inventory.id);
   }
 }

@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { VehicleService } from './vehicle.service';
 import { Vehicle } from './entities/vehicle.entity';
 import { CreateVehicleInput } from './dto/create-vehicle.input';
@@ -6,27 +6,27 @@ import { UpdateVehicleInput } from './dto/update-vehicle.input';
 
 @Resolver(() => Vehicle)
 export class VehicleResolver {
-  constructor(private readonly vehicleService: VehicleService) {}
+  public constructor(private readonly vehicleService: VehicleService) {}
 
-  @Mutation(() => Vehicle)
-  createVehicle(
+  @Mutation(() => Vehicle, { name: 'createVehicle' })
+  public async create(
     @Args('createVehicleInput') createVehicleInput: CreateVehicleInput,
   ) {
     return this.vehicleService.create(createVehicleInput);
   }
 
-  @Query(() => [Vehicle], { name: 'vehicle' })
-  findAll() {
-    return this.vehicleService.findAll();
+  @Query(() => [Vehicle], { name: 'findVehicles' })
+  public async find() {
+    return this.vehicleService.find();
   }
 
-  @Query(() => Vehicle, { name: 'vehicle' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.vehicleService.findOne(id);
+  @Query(() => Vehicle, { name: 'findVehicleById' })
+  public async findById(@Args('id') id: string) {
+    return this.vehicleService.findById(id);
   }
 
-  @Mutation(() => Vehicle)
-  updateVehicle(
+  @Mutation(() => Vehicle, { name: 'updateVehicle' })
+  public async update(
     @Args('updateVehicleInput') updateVehicleInput: UpdateVehicleInput,
   ) {
     return this.vehicleService.update(
@@ -35,8 +35,8 @@ export class VehicleResolver {
     );
   }
 
-  @Mutation(() => Vehicle)
-  removeVehicle(@Args('id', { type: () => Int }) id: number) {
-    return this.vehicleService.remove(id);
+  @Mutation(() => Vehicle, { name: 'deleteVehicle' })
+  public async delete(@Args('id') id: string) {
+    return this.vehicleService.delete(id);
   }
 }

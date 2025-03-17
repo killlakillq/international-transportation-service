@@ -20,91 +20,117 @@ export type Scalars = {
 
 export type Calculation = {
   readonly __typename?: 'Calculation';
-  /** Example field (placeholder) */
-  readonly exampleField: Scalars['Int']['output'];
+  readonly calculatedAt: Scalars['DateTime']['output'];
+  readonly cost: Scalars['Float']['output'];
+  readonly distance: Scalars['Float']['output'];
+  readonly id: Scalars['ID']['output'];
+  readonly weight: Scalars['Float']['output'];
 };
 
 export type CreateCalculationInput = {
-  /** Example field (placeholder) */
-  readonly exampleField: Scalars['Int']['input'];
+  readonly cost: Scalars['Float']['input'];
+  readonly distance: Scalars['Float']['input'];
+  readonly weight: Scalars['Float']['input'];
 };
 
 export type CreateDeliveryInput = {
-  /** Example field (placeholder) */
-  readonly exampleField: Scalars['Int']['input'];
+  readonly status: DeliveryStatus;
 };
 
 export type CreateDocumentInput = {
-  /** Example field (placeholder) */
-  readonly exampleField: Scalars['Int']['input'];
+  readonly fileName: Scalars['String']['input'];
+  readonly fileType: Scalars['String']['input'];
+  readonly url: Scalars['String']['input'];
 };
 
 export type CreateInventoryInput = {
-  /** Example field (placeholder) */
-  readonly exampleField: Scalars['Int']['input'];
+  readonly location: Scalars['String']['input'];
+  readonly productName: Scalars['String']['input'];
+  readonly quantity: Scalars['Float']['input'];
+  readonly weight: Scalars['Float']['input'];
 };
 
 export type CreateNotificationInput = {
-  /** Example field (placeholder) */
-  readonly exampleField: Scalars['Int']['input'];
+  readonly message: Scalars['String']['input'];
 };
 
 export type CreateOrderInput = {
-  /** Example field (placeholder) */
-  readonly exampleField: Scalars['Int']['input'];
+  readonly status: OrderStatus;
+  readonly totalAmount: Scalars['Float']['input'];
 };
 
 export type CreatePaymentInput = {
-  /** Example field (placeholder) */
-  readonly exampleField: Scalars['Int']['input'];
+  readonly amount: Scalars['Float']['input'];
+  readonly paymentMethod: Scalars['String']['input'];
+  readonly status: PaymentStatus;
 };
 
 export type CreateRateInput = {
-  /** Example field (placeholder) */
-  readonly exampleField: Scalars['Int']['input'];
+  readonly basePrice: Scalars['Float']['input'];
+  readonly pricePerKg: Scalars['Float']['input'];
 };
 
 export type CreateRouteInput = {
-  /** Example field (placeholder) */
-  readonly exampleField: Scalars['Int']['input'];
+  readonly estimatedTime: Scalars['String']['input'];
+  readonly from: Scalars['String']['input'];
+  readonly to: Scalars['String']['input'];
 };
 
 export type CreateShipmentInput = {
-  /** Example field (placeholder) */
-  readonly exampleField: Scalars['Int']['input'];
+  readonly status: ShipmentStatus;
+  readonly trackingNumber: Scalars['String']['input'];
+  readonly weight: Scalars['Float']['input'];
 };
 
 export type CreateTicketInput = {
-  /** Example field (placeholder) */
-  readonly exampleField: Scalars['Int']['input'];
+  readonly issue: Scalars['String']['input'];
+  readonly status: TicketStatus;
 };
 
 export type CreateUserInput = {
   readonly email: Scalars['String']['input'];
-  readonly password: Scalars['String']['input'];
 };
 
 export type CreateVehicleInput = {
-  /** Example field (placeholder) */
-  readonly exampleField: Scalars['Int']['input'];
+  readonly licensePlate: Scalars['String']['input'];
+  readonly maxCapacity: Scalars['Float']['input'];
+  readonly vehicleType: Scalars['String']['input'];
 };
 
 export type Delivery = {
   readonly __typename?: 'Delivery';
-  /** Example field (placeholder) */
-  readonly exampleField: Scalars['Int']['output'];
+  readonly deliveredAt: Scalars['DateTime']['output'];
+  readonly id: Scalars['ID']['output'];
+  readonly route: Route;
+  readonly shipment: Shipment;
+  readonly status: DeliveryStatus;
+  readonly vehicle: Vehicle;
 };
+
+/** The status of the delivery. */
+export enum DeliveryStatus {
+  Delivered = 'Delivered',
+  Failed = 'Failed',
+  InTransit = 'InTransit',
+  Pending = 'Pending'
+}
 
 export type Document = {
   readonly __typename?: 'Document';
-  /** Example field (placeholder) */
-  readonly exampleField: Scalars['Int']['output'];
+  readonly fileName: Scalars['String']['output'];
+  readonly fileType: Scalars['String']['output'];
+  readonly id: Scalars['ID']['output'];
+  readonly uploadedAt: Scalars['DateTime']['output'];
+  readonly url: Scalars['String']['output'];
 };
 
 export type Inventory = {
   readonly __typename?: 'Inventory';
-  /** Example field (placeholder) */
-  readonly exampleField: Scalars['Int']['output'];
+  readonly id: Scalars['ID']['output'];
+  readonly location: Scalars['String']['output'];
+  readonly productName: Scalars['String']['output'];
+  readonly quantity: Scalars['Float']['output'];
+  readonly weight: Scalars['Float']['output'];
 };
 
 export type Mutation = {
@@ -122,18 +148,18 @@ export type Mutation = {
   readonly createTicket: Ticket;
   readonly createUser: User;
   readonly createVehicle: Vehicle;
-  readonly removeCalculation: Calculation;
-  readonly removeDelivery: Delivery;
-  readonly removeDocument: Document;
-  readonly removeInventory: Inventory;
+  readonly deleteCalculation: Calculation;
+  readonly deleteDelivery: Delivery;
+  readonly deleteDocument: Document;
+  readonly deleteInventory: Inventory;
+  readonly deleteOrder: Order;
+  readonly deletePayment: Payment;
+  readonly deleteRate: Rate;
+  readonly deleteRoute: Route;
+  readonly deleteShipment: Shipment;
+  readonly deleteTicket: Ticket;
+  readonly deleteVehicle: Vehicle;
   readonly removeNotification: Notification;
-  readonly removeOrder: Order;
-  readonly removePayment: Payment;
-  readonly removeRate: Rate;
-  readonly removeRoute: Route;
-  readonly removeShipment: Shipment;
-  readonly removeTicket: Ticket;
-  readonly removeVehicle: Vehicle;
   readonly updateCalculation: Calculation;
   readonly updateDelivery: Delivery;
   readonly updateDocument: Document;
@@ -214,62 +240,62 @@ export type MutationCreateVehicleArgs = {
 };
 
 
-export type MutationRemoveCalculationArgs = {
-  id: Scalars['Int']['input'];
+export type MutationDeleteCalculationArgs = {
+  id: Scalars['String']['input'];
 };
 
 
-export type MutationRemoveDeliveryArgs = {
-  id: Scalars['Int']['input'];
+export type MutationDeleteDeliveryArgs = {
+  id: Scalars['String']['input'];
 };
 
 
-export type MutationRemoveDocumentArgs = {
-  id: Scalars['Int']['input'];
+export type MutationDeleteDocumentArgs = {
+  id: Scalars['String']['input'];
 };
 
 
-export type MutationRemoveInventoryArgs = {
-  id: Scalars['Int']['input'];
+export type MutationDeleteInventoryArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type MutationDeleteOrderArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type MutationDeletePaymentArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type MutationDeleteRateArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type MutationDeleteRouteArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type MutationDeleteShipmentArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type MutationDeleteTicketArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type MutationDeleteVehicleArgs = {
+  id: Scalars['String']['input'];
 };
 
 
 export type MutationRemoveNotificationArgs = {
-  id: Scalars['Int']['input'];
-};
-
-
-export type MutationRemoveOrderArgs = {
-  id: Scalars['Int']['input'];
-};
-
-
-export type MutationRemovePaymentArgs = {
-  id: Scalars['Int']['input'];
-};
-
-
-export type MutationRemoveRateArgs = {
-  id: Scalars['Int']['input'];
-};
-
-
-export type MutationRemoveRouteArgs = {
-  id: Scalars['Int']['input'];
-};
-
-
-export type MutationRemoveShipmentArgs = {
-  id: Scalars['Int']['input'];
-};
-
-
-export type MutationRemoveTicketArgs = {
-  id: Scalars['Int']['input'];
-};
-
-
-export type MutationRemoveVehicleArgs = {
   id: Scalars['Int']['input'];
 };
 
@@ -335,62 +361,139 @@ export type MutationUpdateVehicleArgs = {
 
 export type Notification = {
   readonly __typename?: 'Notification';
-  /** Example field (placeholder) */
-  readonly exampleField: Scalars['Int']['output'];
+  readonly createdAt: Scalars['DateTime']['output'];
+  readonly id: Scalars['ID']['output'];
+  readonly message: Scalars['String']['output'];
+  readonly status: NotificationStatus;
+  readonly user: User;
 };
+
+/** The status of the notification. */
+export enum NotificationStatus {
+  Read = 'Read',
+  Unread = 'Unread'
+}
 
 export type Order = {
   readonly __typename?: 'Order';
-  /** Example field (placeholder) */
-  readonly exampleField: Scalars['Int']['output'];
+  readonly id: Scalars['ID']['output'];
+  readonly orderDate: Scalars['DateTime']['output'];
+  readonly status: OrderStatus;
+  readonly totalAmount: Scalars['Float']['output'];
+  readonly user: User;
 };
+
+/** The status of the order. */
+export enum OrderStatus {
+  Canceled = 'Canceled',
+  Completed = 'Completed',
+  Pending = 'Pending'
+}
 
 export type Payment = {
   readonly __typename?: 'Payment';
-  /** Example field (placeholder) */
-  readonly exampleField: Scalars['Int']['output'];
+  readonly amount: Scalars['Float']['output'];
+  readonly id: Scalars['ID']['output'];
+  readonly paymentDate: Scalars['DateTime']['output'];
+  readonly paymentMethod: Scalars['String']['output'];
+  readonly shipment: Shipment;
+  readonly status: PaymentStatus;
+  readonly user: User;
 };
+
+/** The status of the payment. */
+export enum PaymentStatus {
+  Failed = 'Failed',
+  Paid = 'Paid',
+  Pending = 'Pending'
+}
 
 export type Query = {
   readonly __typename?: 'Query';
-  readonly calculation: Calculation;
-  readonly delivery: Delivery;
-  readonly document: Document;
-  readonly findById: User;
-  readonly inventory: Inventory;
+  readonly findCalculationById: Calculation;
+  readonly findCalculations: ReadonlyArray<Calculation>;
+  readonly findDeliveries: ReadonlyArray<Delivery>;
+  readonly findDeliveryById: Delivery;
+  readonly findDocumentById: Document;
+  readonly findDocuments: ReadonlyArray<Document>;
+  readonly findInventoryById: Inventory;
+  readonly findInventorys: ReadonlyArray<Inventory>;
+  readonly findOrderById: Order;
+  readonly findOrders: ReadonlyArray<Order>;
+  readonly findPaymentById: Payment;
+  readonly findPayments: ReadonlyArray<Payment>;
+  readonly findRateById: Rate;
+  readonly findRates: ReadonlyArray<Rate>;
+  readonly findRouteById: Route;
+  readonly findRoutes: ReadonlyArray<Route>;
+  readonly findShipmentById: Shipment;
+  readonly findShipments: ReadonlyArray<Shipment>;
+  readonly findTicketById: Ticket;
+  readonly findTickets: ReadonlyArray<Ticket>;
+  readonly findUsers: User;
+  readonly findVehicleById: Vehicle;
+  readonly findVehicles: ReadonlyArray<Vehicle>;
   readonly notification: Notification;
-  readonly order: Order;
-  readonly payment: Payment;
-  readonly rate: Rate;
-  readonly route: Route;
-  readonly shipment: Shipment;
-  readonly ticket: Ticket;
-  readonly vehicle: Vehicle;
 };
 
 
-export type QueryCalculationArgs = {
-  id: Scalars['Int']['input'];
-};
-
-
-export type QueryDeliveryArgs = {
-  id: Scalars['Int']['input'];
-};
-
-
-export type QueryDocumentArgs = {
-  id: Scalars['Int']['input'];
-};
-
-
-export type QueryFindByIdArgs = {
+export type QueryFindCalculationByIdArgs = {
   id: Scalars['String']['input'];
 };
 
 
-export type QueryInventoryArgs = {
-  id: Scalars['Int']['input'];
+export type QueryFindDeliveryByIdArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type QueryFindDocumentByIdArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type QueryFindInventoryByIdArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type QueryFindOrderByIdArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type QueryFindPaymentByIdArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type QueryFindRateByIdArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type QueryFindRouteByIdArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type QueryFindShipmentByIdArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type QueryFindTicketByIdArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type QueryFindUsersArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type QueryFindVehicleByIdArgs = {
+  id: Scalars['String']['input'];
 };
 
 
@@ -398,150 +501,156 @@ export type QueryNotificationArgs = {
   id: Scalars['Int']['input'];
 };
 
-
-export type QueryOrderArgs = {
-  id: Scalars['Int']['input'];
-};
-
-
-export type QueryPaymentArgs = {
-  id: Scalars['Int']['input'];
-};
-
-
-export type QueryRateArgs = {
-  id: Scalars['Int']['input'];
-};
-
-
-export type QueryRouteArgs = {
-  id: Scalars['Int']['input'];
-};
-
-
-export type QueryShipmentArgs = {
-  id: Scalars['Int']['input'];
-};
-
-
-export type QueryTicketArgs = {
-  id: Scalars['Int']['input'];
-};
-
-
-export type QueryVehicleArgs = {
-  id: Scalars['Int']['input'];
-};
-
 export type Rate = {
   readonly __typename?: 'Rate';
-  /** Example field (placeholder) */
-  readonly exampleField: Scalars['Int']['output'];
+  readonly basePrice: Scalars['Float']['output'];
+  readonly id: Scalars['ID']['output'];
+  readonly pricePerKg: Scalars['Float']['output'];
+  readonly route: Route;
 };
 
 export type Route = {
   readonly __typename?: 'Route';
-  /** Example field (placeholder) */
-  readonly exampleField: Scalars['Int']['output'];
+  readonly deliveries: ReadonlyArray<Delivery>;
+  readonly estimatedTime: Scalars['String']['output'];
+  readonly from: Scalars['String']['output'];
+  readonly id: Scalars['ID']['output'];
+  readonly to: Scalars['String']['output'];
 };
 
 export type Shipment = {
   readonly __typename?: 'Shipment';
-  /** Example field (placeholder) */
-  readonly exampleField: Scalars['Int']['output'];
+  readonly id: Scalars['ID']['output'];
+  readonly route: Route;
+  readonly status: ShipmentStatus;
+  readonly trackingNumber: Scalars['String']['output'];
+  readonly user: User;
+  readonly vehicle: Vehicle;
+  readonly weight: Scalars['Float']['output'];
 };
+
+/** The status of the shipment. */
+export enum ShipmentStatus {
+  Canceled = 'Canceled',
+  Delivered = 'Delivered',
+  InTransit = 'InTransit',
+  Pending = 'Pending',
+  Shipped = 'Shipped'
+}
 
 export type Ticket = {
   readonly __typename?: 'Ticket';
-  /** Example field (placeholder) */
-  readonly exampleField: Scalars['Int']['output'];
+  readonly createdAt: Scalars['DateTime']['output'];
+  readonly id: Scalars['ID']['output'];
+  readonly issue: Scalars['String']['output'];
+  readonly status: TicketStatus;
+  readonly user: User;
 };
 
+/** The status of the ticket. */
+export enum TicketStatus {
+  Closed = 'Closed',
+  InProgress = 'InProgress',
+  Opened = 'Opened'
+}
+
 export type UpdateCalculationInput = {
-  /** Example field (placeholder) */
-  readonly exampleField?: InputMaybe<Scalars['Int']['input']>;
-  readonly id: Scalars['Int']['input'];
+  readonly cost?: InputMaybe<Scalars['Float']['input']>;
+  readonly distance?: InputMaybe<Scalars['Float']['input']>;
+  readonly id: Scalars['String']['input'];
+  readonly weight?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type UpdateDeliveryInput = {
-  /** Example field (placeholder) */
-  readonly exampleField?: InputMaybe<Scalars['Int']['input']>;
-  readonly id: Scalars['Int']['input'];
+  readonly id: Scalars['String']['input'];
+  readonly status?: InputMaybe<DeliveryStatus>;
 };
 
 export type UpdateDocumentInput = {
-  /** Example field (placeholder) */
-  readonly exampleField?: InputMaybe<Scalars['Int']['input']>;
-  readonly id: Scalars['Int']['input'];
+  readonly fileName?: InputMaybe<Scalars['String']['input']>;
+  readonly fileType?: InputMaybe<Scalars['String']['input']>;
+  readonly id: Scalars['String']['input'];
+  readonly url?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateInventoryInput = {
-  /** Example field (placeholder) */
-  readonly exampleField?: InputMaybe<Scalars['Int']['input']>;
-  readonly id: Scalars['Int']['input'];
+  readonly id: Scalars['String']['input'];
+  readonly location?: InputMaybe<Scalars['String']['input']>;
+  readonly productName?: InputMaybe<Scalars['String']['input']>;
+  readonly quantity?: InputMaybe<Scalars['Float']['input']>;
+  readonly weight?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type UpdateNotificationInput = {
-  /** Example field (placeholder) */
-  readonly exampleField?: InputMaybe<Scalars['Int']['input']>;
-  readonly id: Scalars['Int']['input'];
+  readonly id: Scalars['String']['input'];
+  readonly message?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateOrderInput = {
-  /** Example field (placeholder) */
-  readonly exampleField?: InputMaybe<Scalars['Int']['input']>;
-  readonly id: Scalars['Int']['input'];
+  readonly id: Scalars['String']['input'];
+  readonly status?: InputMaybe<OrderStatus>;
+  readonly totalAmount?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type UpdatePaymentInput = {
-  /** Example field (placeholder) */
-  readonly exampleField?: InputMaybe<Scalars['Int']['input']>;
-  readonly id: Scalars['Int']['input'];
+  readonly amount?: InputMaybe<Scalars['Float']['input']>;
+  readonly id: Scalars['String']['input'];
+  readonly paymentMethod?: InputMaybe<Scalars['String']['input']>;
+  readonly status?: InputMaybe<PaymentStatus>;
 };
 
 export type UpdateRateInput = {
-  /** Example field (placeholder) */
-  readonly exampleField?: InputMaybe<Scalars['Int']['input']>;
-  readonly id: Scalars['Int']['input'];
+  readonly basePrice?: InputMaybe<Scalars['Float']['input']>;
+  readonly id: Scalars['String']['input'];
+  readonly pricePerKg?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type UpdateRouteInput = {
-  /** Example field (placeholder) */
-  readonly exampleField?: InputMaybe<Scalars['Int']['input']>;
-  readonly id: Scalars['Int']['input'];
+  readonly estimatedTime?: InputMaybe<Scalars['String']['input']>;
+  readonly from?: InputMaybe<Scalars['String']['input']>;
+  readonly id: Scalars['String']['input'];
+  readonly to?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateShipmentInput = {
-  /** Example field (placeholder) */
-  readonly exampleField?: InputMaybe<Scalars['Int']['input']>;
-  readonly id: Scalars['Int']['input'];
+  readonly id: Scalars['String']['input'];
+  readonly status?: InputMaybe<ShipmentStatus>;
+  readonly trackingNumber?: InputMaybe<Scalars['String']['input']>;
+  readonly weight?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type UpdateTicketInput = {
-  /** Example field (placeholder) */
-  readonly exampleField?: InputMaybe<Scalars['Int']['input']>;
-  readonly id: Scalars['Int']['input'];
+  readonly id: Scalars['String']['input'];
+  readonly issue?: InputMaybe<Scalars['String']['input']>;
+  readonly status?: InputMaybe<TicketStatus>;
 };
 
 export type UpdateVehicleInput = {
-  /** Example field (placeholder) */
-  readonly exampleField?: InputMaybe<Scalars['Int']['input']>;
-  readonly id: Scalars['Int']['input'];
+  readonly id: Scalars['String']['input'];
+  readonly licensePlate?: InputMaybe<Scalars['String']['input']>;
+  readonly maxCapacity?: InputMaybe<Scalars['Float']['input']>;
+  readonly vehicleType?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type User = {
   readonly __typename?: 'User';
-  readonly createdDate?: Maybe<Scalars['DateTime']['output']>;
+  readonly createdAt: Scalars['DateTime']['output'];
   readonly email: Scalars['String']['output'];
-  readonly id: Scalars['String']['output'];
-  readonly password: Scalars['String']['output'];
-  readonly updatedDate?: Maybe<Scalars['DateTime']['output']>;
+  readonly id: Scalars['ID']['output'];
+  readonly name: Scalars['String']['output'];
+  readonly orders: ReadonlyArray<Order>;
+  readonly phone: Scalars['String']['output'];
+  readonly role: Scalars['String']['output'];
+  readonly shipments: ReadonlyArray<Shipment>;
 };
 
 export type Vehicle = {
   readonly __typename?: 'Vehicle';
-  /** Example field (placeholder) */
-  readonly exampleField: Scalars['Int']['output'];
+  readonly driver: User;
+  readonly id: Scalars['ID']['output'];
+  readonly licensePlate: Scalars['String']['output'];
+  readonly maxCapacity: Scalars['Float']['output'];
+  readonly vehicleType: Scalars['String']['output'];
 };
 
 
@@ -632,19 +741,27 @@ export type ResolversTypes = {
   CreateVehicleInput: CreateVehicleInput;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
   Delivery: ResolverTypeWrapper<Delivery>;
+  DeliveryStatus: DeliveryStatus;
   Document: ResolverTypeWrapper<Document>;
+  Float: ResolverTypeWrapper<Scalars['Float']['output']>;
+  ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Inventory: ResolverTypeWrapper<Inventory>;
   Mutation: ResolverTypeWrapper<{}>;
   Notification: ResolverTypeWrapper<Notification>;
+  NotificationStatus: NotificationStatus;
   Order: ResolverTypeWrapper<Order>;
+  OrderStatus: OrderStatus;
   Payment: ResolverTypeWrapper<Payment>;
+  PaymentStatus: PaymentStatus;
   Query: ResolverTypeWrapper<{}>;
   Rate: ResolverTypeWrapper<Rate>;
   Route: ResolverTypeWrapper<Route>;
   Shipment: ResolverTypeWrapper<Shipment>;
+  ShipmentStatus: ShipmentStatus;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   Ticket: ResolverTypeWrapper<Ticket>;
+  TicketStatus: TicketStatus;
   UpdateCalculationInput: UpdateCalculationInput;
   UpdateDeliveryInput: UpdateDeliveryInput;
   UpdateDocumentInput: UpdateDocumentInput;
@@ -681,6 +798,8 @@ export type ResolversParentTypes = {
   DateTime: Scalars['DateTime']['output'];
   Delivery: Delivery;
   Document: Document;
+  Float: Scalars['Float']['output'];
+  ID: Scalars['ID']['output'];
   Int: Scalars['Int']['output'];
   Inventory: Inventory;
   Mutation: {};
@@ -710,7 +829,11 @@ export type ResolversParentTypes = {
 };
 
 export type CalculationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Calculation'] = ResolversParentTypes['Calculation']> = {
-  exampleField?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  calculatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  cost?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  distance?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  weight?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -719,17 +842,30 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
 }
 
 export type DeliveryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Delivery'] = ResolversParentTypes['Delivery']> = {
-  exampleField?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  deliveredAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  route?: Resolver<ResolversTypes['Route'], ParentType, ContextType>;
+  shipment?: Resolver<ResolversTypes['Shipment'], ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['DeliveryStatus'], ParentType, ContextType>;
+  vehicle?: Resolver<ResolversTypes['Vehicle'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type DocumentResolvers<ContextType = any, ParentType extends ResolversParentTypes['Document'] = ResolversParentTypes['Document']> = {
-  exampleField?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  fileName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  fileType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  uploadedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type InventoryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Inventory'] = ResolversParentTypes['Inventory']> = {
-  exampleField?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  location?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  productName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  quantity?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  weight?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -747,18 +883,18 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createTicket?: Resolver<ResolversTypes['Ticket'], ParentType, ContextType, RequireFields<MutationCreateTicketArgs, 'createTicketInput'>>;
   createUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'createUserInput'>>;
   createVehicle?: Resolver<ResolversTypes['Vehicle'], ParentType, ContextType, RequireFields<MutationCreateVehicleArgs, 'createVehicleInput'>>;
-  removeCalculation?: Resolver<ResolversTypes['Calculation'], ParentType, ContextType, RequireFields<MutationRemoveCalculationArgs, 'id'>>;
-  removeDelivery?: Resolver<ResolversTypes['Delivery'], ParentType, ContextType, RequireFields<MutationRemoveDeliveryArgs, 'id'>>;
-  removeDocument?: Resolver<ResolversTypes['Document'], ParentType, ContextType, RequireFields<MutationRemoveDocumentArgs, 'id'>>;
-  removeInventory?: Resolver<ResolversTypes['Inventory'], ParentType, ContextType, RequireFields<MutationRemoveInventoryArgs, 'id'>>;
+  deleteCalculation?: Resolver<ResolversTypes['Calculation'], ParentType, ContextType, RequireFields<MutationDeleteCalculationArgs, 'id'>>;
+  deleteDelivery?: Resolver<ResolversTypes['Delivery'], ParentType, ContextType, RequireFields<MutationDeleteDeliveryArgs, 'id'>>;
+  deleteDocument?: Resolver<ResolversTypes['Document'], ParentType, ContextType, RequireFields<MutationDeleteDocumentArgs, 'id'>>;
+  deleteInventory?: Resolver<ResolversTypes['Inventory'], ParentType, ContextType, RequireFields<MutationDeleteInventoryArgs, 'id'>>;
+  deleteOrder?: Resolver<ResolversTypes['Order'], ParentType, ContextType, RequireFields<MutationDeleteOrderArgs, 'id'>>;
+  deletePayment?: Resolver<ResolversTypes['Payment'], ParentType, ContextType, RequireFields<MutationDeletePaymentArgs, 'id'>>;
+  deleteRate?: Resolver<ResolversTypes['Rate'], ParentType, ContextType, RequireFields<MutationDeleteRateArgs, 'id'>>;
+  deleteRoute?: Resolver<ResolversTypes['Route'], ParentType, ContextType, RequireFields<MutationDeleteRouteArgs, 'id'>>;
+  deleteShipment?: Resolver<ResolversTypes['Shipment'], ParentType, ContextType, RequireFields<MutationDeleteShipmentArgs, 'id'>>;
+  deleteTicket?: Resolver<ResolversTypes['Ticket'], ParentType, ContextType, RequireFields<MutationDeleteTicketArgs, 'id'>>;
+  deleteVehicle?: Resolver<ResolversTypes['Vehicle'], ParentType, ContextType, RequireFields<MutationDeleteVehicleArgs, 'id'>>;
   removeNotification?: Resolver<ResolversTypes['Notification'], ParentType, ContextType, RequireFields<MutationRemoveNotificationArgs, 'id'>>;
-  removeOrder?: Resolver<ResolversTypes['Order'], ParentType, ContextType, RequireFields<MutationRemoveOrderArgs, 'id'>>;
-  removePayment?: Resolver<ResolversTypes['Payment'], ParentType, ContextType, RequireFields<MutationRemovePaymentArgs, 'id'>>;
-  removeRate?: Resolver<ResolversTypes['Rate'], ParentType, ContextType, RequireFields<MutationRemoveRateArgs, 'id'>>;
-  removeRoute?: Resolver<ResolversTypes['Route'], ParentType, ContextType, RequireFields<MutationRemoveRouteArgs, 'id'>>;
-  removeShipment?: Resolver<ResolversTypes['Shipment'], ParentType, ContextType, RequireFields<MutationRemoveShipmentArgs, 'id'>>;
-  removeTicket?: Resolver<ResolversTypes['Ticket'], ParentType, ContextType, RequireFields<MutationRemoveTicketArgs, 'id'>>;
-  removeVehicle?: Resolver<ResolversTypes['Vehicle'], ParentType, ContextType, RequireFields<MutationRemoveVehicleArgs, 'id'>>;
   updateCalculation?: Resolver<ResolversTypes['Calculation'], ParentType, ContextType, RequireFields<MutationUpdateCalculationArgs, 'updateCalculationInput'>>;
   updateDelivery?: Resolver<ResolversTypes['Delivery'], ParentType, ContextType, RequireFields<MutationUpdateDeliveryArgs, 'updateDeliveryInput'>>;
   updateDocument?: Resolver<ResolversTypes['Document'], ParentType, ContextType, RequireFields<MutationUpdateDocumentArgs, 'updateDocumentInput'>>;
@@ -774,67 +910,116 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type NotificationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Notification'] = ResolversParentTypes['Notification']> = {
-  exampleField?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['NotificationStatus'], ParentType, ContextType>;
+  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type OrderResolvers<ContextType = any, ParentType extends ResolversParentTypes['Order'] = ResolversParentTypes['Order']> = {
-  exampleField?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  orderDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['OrderStatus'], ParentType, ContextType>;
+  totalAmount?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type PaymentResolvers<ContextType = any, ParentType extends ResolversParentTypes['Payment'] = ResolversParentTypes['Payment']> = {
-  exampleField?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  amount?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  paymentDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  paymentMethod?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  shipment?: Resolver<ResolversTypes['Shipment'], ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['PaymentStatus'], ParentType, ContextType>;
+  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  calculation?: Resolver<ResolversTypes['Calculation'], ParentType, ContextType, RequireFields<QueryCalculationArgs, 'id'>>;
-  delivery?: Resolver<ResolversTypes['Delivery'], ParentType, ContextType, RequireFields<QueryDeliveryArgs, 'id'>>;
-  document?: Resolver<ResolversTypes['Document'], ParentType, ContextType, RequireFields<QueryDocumentArgs, 'id'>>;
-  findById?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryFindByIdArgs, 'id'>>;
-  inventory?: Resolver<ResolversTypes['Inventory'], ParentType, ContextType, RequireFields<QueryInventoryArgs, 'id'>>;
+  findCalculationById?: Resolver<ResolversTypes['Calculation'], ParentType, ContextType, RequireFields<QueryFindCalculationByIdArgs, 'id'>>;
+  findCalculations?: Resolver<ReadonlyArray<ResolversTypes['Calculation']>, ParentType, ContextType>;
+  findDeliveries?: Resolver<ReadonlyArray<ResolversTypes['Delivery']>, ParentType, ContextType>;
+  findDeliveryById?: Resolver<ResolversTypes['Delivery'], ParentType, ContextType, RequireFields<QueryFindDeliveryByIdArgs, 'id'>>;
+  findDocumentById?: Resolver<ResolversTypes['Document'], ParentType, ContextType, RequireFields<QueryFindDocumentByIdArgs, 'id'>>;
+  findDocuments?: Resolver<ReadonlyArray<ResolversTypes['Document']>, ParentType, ContextType>;
+  findInventoryById?: Resolver<ResolversTypes['Inventory'], ParentType, ContextType, RequireFields<QueryFindInventoryByIdArgs, 'id'>>;
+  findInventorys?: Resolver<ReadonlyArray<ResolversTypes['Inventory']>, ParentType, ContextType>;
+  findOrderById?: Resolver<ResolversTypes['Order'], ParentType, ContextType, RequireFields<QueryFindOrderByIdArgs, 'id'>>;
+  findOrders?: Resolver<ReadonlyArray<ResolversTypes['Order']>, ParentType, ContextType>;
+  findPaymentById?: Resolver<ResolversTypes['Payment'], ParentType, ContextType, RequireFields<QueryFindPaymentByIdArgs, 'id'>>;
+  findPayments?: Resolver<ReadonlyArray<ResolversTypes['Payment']>, ParentType, ContextType>;
+  findRateById?: Resolver<ResolversTypes['Rate'], ParentType, ContextType, RequireFields<QueryFindRateByIdArgs, 'id'>>;
+  findRates?: Resolver<ReadonlyArray<ResolversTypes['Rate']>, ParentType, ContextType>;
+  findRouteById?: Resolver<ResolversTypes['Route'], ParentType, ContextType, RequireFields<QueryFindRouteByIdArgs, 'id'>>;
+  findRoutes?: Resolver<ReadonlyArray<ResolversTypes['Route']>, ParentType, ContextType>;
+  findShipmentById?: Resolver<ResolversTypes['Shipment'], ParentType, ContextType, RequireFields<QueryFindShipmentByIdArgs, 'id'>>;
+  findShipments?: Resolver<ReadonlyArray<ResolversTypes['Shipment']>, ParentType, ContextType>;
+  findTicketById?: Resolver<ResolversTypes['Ticket'], ParentType, ContextType, RequireFields<QueryFindTicketByIdArgs, 'id'>>;
+  findTickets?: Resolver<ReadonlyArray<ResolversTypes['Ticket']>, ParentType, ContextType>;
+  findUsers?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryFindUsersArgs, 'id'>>;
+  findVehicleById?: Resolver<ResolversTypes['Vehicle'], ParentType, ContextType, RequireFields<QueryFindVehicleByIdArgs, 'id'>>;
+  findVehicles?: Resolver<ReadonlyArray<ResolversTypes['Vehicle']>, ParentType, ContextType>;
   notification?: Resolver<ResolversTypes['Notification'], ParentType, ContextType, RequireFields<QueryNotificationArgs, 'id'>>;
-  order?: Resolver<ResolversTypes['Order'], ParentType, ContextType, RequireFields<QueryOrderArgs, 'id'>>;
-  payment?: Resolver<ResolversTypes['Payment'], ParentType, ContextType, RequireFields<QueryPaymentArgs, 'id'>>;
-  rate?: Resolver<ResolversTypes['Rate'], ParentType, ContextType, RequireFields<QueryRateArgs, 'id'>>;
-  route?: Resolver<ResolversTypes['Route'], ParentType, ContextType, RequireFields<QueryRouteArgs, 'id'>>;
-  shipment?: Resolver<ResolversTypes['Shipment'], ParentType, ContextType, RequireFields<QueryShipmentArgs, 'id'>>;
-  ticket?: Resolver<ResolversTypes['Ticket'], ParentType, ContextType, RequireFields<QueryTicketArgs, 'id'>>;
-  vehicle?: Resolver<ResolversTypes['Vehicle'], ParentType, ContextType, RequireFields<QueryVehicleArgs, 'id'>>;
 };
 
 export type RateResolvers<ContextType = any, ParentType extends ResolversParentTypes['Rate'] = ResolversParentTypes['Rate']> = {
-  exampleField?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  basePrice?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  pricePerKg?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  route?: Resolver<ResolversTypes['Route'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type RouteResolvers<ContextType = any, ParentType extends ResolversParentTypes['Route'] = ResolversParentTypes['Route']> = {
-  exampleField?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  deliveries?: Resolver<ReadonlyArray<ResolversTypes['Delivery']>, ParentType, ContextType>;
+  estimatedTime?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  from?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  to?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type ShipmentResolvers<ContextType = any, ParentType extends ResolversParentTypes['Shipment'] = ResolversParentTypes['Shipment']> = {
-  exampleField?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  route?: Resolver<ResolversTypes['Route'], ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['ShipmentStatus'], ParentType, ContextType>;
+  trackingNumber?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  vehicle?: Resolver<ResolversTypes['Vehicle'], ParentType, ContextType>;
+  weight?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type TicketResolvers<ContextType = any, ParentType extends ResolversParentTypes['Ticket'] = ResolversParentTypes['Ticket']> = {
-  exampleField?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  issue?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['TicketStatus'], ParentType, ContextType>;
+  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
-  createdDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  password?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  updatedDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  orders?: Resolver<ReadonlyArray<ResolversTypes['Order']>, ParentType, ContextType>;
+  phone?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  role?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  shipments?: Resolver<ReadonlyArray<ResolversTypes['Shipment']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type VehicleResolvers<ContextType = any, ParentType extends ResolversParentTypes['Vehicle'] = ResolversParentTypes['Vehicle']> = {
-  exampleField?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  driver?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  licensePlate?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  maxCapacity?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  vehicleType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
