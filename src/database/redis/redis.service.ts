@@ -33,6 +33,18 @@ export class RedisService implements OnModuleDestroy {
     return this.client;
   }
 
+  public async set(key: string, value: string) {
+    const client = this.getClient();
+
+    return client.set(key, value);
+  }
+
+  public async get(key: string) {
+    const client = this.getClient();
+
+    return client.get(key);
+  }
+
   public async onModuleDestroy() {
     await this.client.quit();
   }

@@ -31,4 +31,12 @@ export class MinioService {
   ) {
     return this.client.fPutObject(bucketName, objectName, filePath);
   }
+
+  public async fGetObject(
+    bucketName: string,
+    objectName: string,
+    filePath: string,
+  ) {
+    return this.client.fGetObject(bucketName, objectName, filePath);
+  }
 }
