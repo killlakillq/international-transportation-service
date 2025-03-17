@@ -22,9 +22,19 @@ import { DocumentModule } from '@/modules/document/document.module';
 import { DeliveryModule } from '@/modules/delivery/delivery.module';
 import { CalculationModule } from '@/modules/calculation/calculation.module';
 import { AuthModule } from '@/modules/auth/auth.module';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
+    ThrottlerModule.forRoot({
+      throttlers: [
+        {
+          ttl: 60000,
+          limit: 10,
+        },
+      ],
+    }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       playground: false,
@@ -72,6 +82,12 @@ import { AuthModule } from '@/modules/auth/auth.module';
     DeliveryModule,
     CalculationModule,
     AuthModule,
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
   ],
 })
 export class AppModule {}
