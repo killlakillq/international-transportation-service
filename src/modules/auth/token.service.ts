@@ -26,21 +26,21 @@ export class TokenService {
       email,
     };
 
-    const [access, refresh] = await Promise.all([
-      this.jwtService.signAsync(payload, {
-        secret: config.jwtAccessSecret,
-        expiresIn: '15m',
-      }),
-      this.jwtService.signAsync(payload, {
-        secret: config.jwtRefreshSecret,
-        expiresIn: '7d',
-      }),
-    ]);
-
     const accessToken = await this.redisService.get(`access:${id}`);
     const refreshToken = await this.redisService.get(`refresh:${id}`);
 
     if (!accessToken || !refreshToken) {
+      const [access, refresh] = await Promise.all([
+        this.jwtService.signAsync(payload, {
+          secret: config.jwtAccessSecret,
+          expiresIn: '15m',
+        }),
+        this.jwtService.signAsync(payload, {
+          secret: config.jwtRefreshSecret,
+          expiresIn: '7d',
+        }),
+      ]);
+
       await this.redisService.set(`access:${id}`, access);
       await this.redisService.set(`refresh:${id}`, refresh);
 

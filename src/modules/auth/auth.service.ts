@@ -18,15 +18,17 @@ export class AuthService {
   ) {}
 
   public async register(createUserDto: CreateUserDto) {
-    const user = await this.userService.findByEmail(createUserDto.email);
+    const existingUser = await this.userService.findByEmail(
+      createUserDto.email,
+    );
 
-    if (user) {
+    if (existingUser) {
       throw new BadRequestException(EXCEPTION.USER.ALREADY_EXISTS);
     }
 
     const hashedPassword = Crypto.encrypt(createUserDto.password);
 
-    await this.userService.create({
+    const user = await this.userService.create({
       ...createUserDto,
       password: hashedPassword,
     });
@@ -45,9 +47,9 @@ export class AuthService {
       throw new BadRequestException(EXCEPTION.USER.LOGIN_OR_PASSWORD_WRONG);
     }
 
-    const hashedPassword = Crypto.encrypt(loginUserDto.password);
+    const decryptedPassword = Crypto.decrypt(user.password);
 
-    if (hashedPassword !== user.password) {
+    if (decryptedPassword !== loginUserDto.password) {
       throw new BadRequestException(EXCEPTION.USER.LOGIN_OR_PASSWORD_WRONG);
     }
 

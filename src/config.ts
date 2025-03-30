@@ -47,4 +47,7 @@ export default {
   redis: {
     url: process.env['REDIS_URL'],
   },
+  crypto: {
+    key: process.env['CRYPTO_KEY'] || 'default-encryption-key-32-bytes-long!',
+  },
 };
