@@ -13,19 +13,19 @@ import { TokenType } from '@/common/decorators/token-type.decorator';
 export class AuthController {
   public constructor(private readonly authService: AuthService) {}
 
-  @Post('register')
+  @Post('/register')
   public async register(@Body() createUserDto: CreateUserDto) {
     return this.authService.register(createUserDto);
   }
 
-  @Post('login')
+  @Post('/login')
   public async login(@Body() loginUserDto: LoginUserDto) {
     return this.authService.login(loginUserDto);
   }
 
   @UseGuards(AuthGuard)
   @TokenType(Token.REFRESH)
-  @Post('refresh')
+  @Post('/refresh')
   public async refresh(@Param('id') id: string, @Req() req: Request) {
     const token = req.headers.authorization.replace('Bearer ', '');
 
