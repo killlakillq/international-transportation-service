@@ -10,7 +10,9 @@ import {
 import { TicketService } from './ticket.service';
 import { CreateTicketDto } from './dto/create-ticket.dto';
 import { UpdateTicketDto } from './dto/update-ticket.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('tickets')
 @Controller('tickets')
 export class TicketController {
   public constructor(private readonly ticketService: TicketService) {}

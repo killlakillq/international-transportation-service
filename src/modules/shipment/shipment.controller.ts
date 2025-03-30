@@ -10,7 +10,9 @@ import {
 import { ShipmentService } from './shipment.service';
 import { CreateShipmentDto } from './dto/create-shipment.dto';
 import { UpdateShipmentDto } from './dto/update-shipment.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('shipments')
 @Controller('shipments')
 export class ShipmentController {
   public constructor(private readonly shipmentService: ShipmentService) {}

@@ -10,8 +10,10 @@ import {
 import { VehicleService } from './vehicle.service';
 import { CreateVehicleDto } from './dto/create-vehicle.dto';
 import { UpdateVehicleDto } from './dto/update-vehicle.dto';
+import { ApiTags } from '@nestjs/swagger';
 
-@Controller('vehicle')
+@ApiTags('vehicles')
+@Controller('vehicles')
 export class VehicleController {
   public constructor(private readonly vehicleService: VehicleService) {}
 

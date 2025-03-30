@@ -58,19 +58,17 @@ export class AuthService {
     };
   }
 
-  public async updateTokens(id: string) {
+  public async refreshToken(id: string, refreshToken: string) {
     const user = await this.userService.findById(id);
 
     if (!user || !user.refreshToken) {
       throw new ForbiddenException(EXCEPTION.AUTH.TOKEN_INVALID);
     }
 
-    if (user.refreshToken) {
-      const hashedRefreshToken = Crypto.encrypt(user.refreshToken);
+    const userRefreshToken = Crypto.decrypt(user.refreshToken);
 
-      if (hashedRefreshToken !== user.refreshToken) {
-        throw new ForbiddenException(EXCEPTION.AUTH.TOKEN_INVALID);
-      }
+    if (userRefreshToken !== refreshToken) {
+      throw new ForbiddenException(EXCEPTION.AUTH.TOKEN_INVALID);
     }
 
     const tokens = await this.tokenService.generateTokens(user.id, user.email);

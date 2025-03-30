@@ -10,7 +10,9 @@ import {
 import { RouteService } from './route.service';
 import { CreateRouteDto } from './dto/create-route.dto';
 import { UpdateRouteDto } from './dto/update-route.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('routes')
 @Controller('routes')
 export class RouteController {
   public constructor(private readonly routeService: RouteService) {}
