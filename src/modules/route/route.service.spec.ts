@@ -55,7 +55,7 @@ describe('RouteService', () => {
       const createRouteDto: CreateRouteDto = {
         from: 'New York',
         to: 'Los Angeles',
-        distance: 3000,
+        distance: '3000 miles',
         price: 100,
         estimatedTime: '10 hours',
       };
@@ -143,14 +143,13 @@ describe('RouteService', () => {
     it('should update a route successfully', async () => {
       const routeId = '1';
       const updateRouteDto: UpdateRouteDto = {
-        // Add your DTO properties here
-        distance: 3500,
+        distance: '3500 miles',
       };
       const existingRoute = {
         id: routeId,
         startLocation: 'New York',
         endLocation: 'Los Angeles',
-        distance: 3000,
+        distance: '3000 miles',
       };
       const updatedRoute = { ...existingRoute, ...updateRouteDto };
 
@@ -171,7 +170,7 @@ describe('RouteService', () => {
     it('should throw NotFoundException when updating non-existent route', async () => {
       const routeId = '1';
       const updateRouteDto: UpdateRouteDto = {
-        distance: 3500,
+        distance: '3500 miles',
       };
       mockRedisService.get.mockResolvedValue(null);
       mockRouteRepository.findById.mockResolvedValue(null);

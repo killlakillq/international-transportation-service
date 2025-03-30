@@ -8,6 +8,8 @@ import {
   type Relation,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
+import { IsNumber, IsEnum } from 'class-validator';
+import { Type } from 'class-transformer';
 
 @Entity('orders')
 export class Order {
@@ -16,6 +18,8 @@ export class Order {
   public id: string;
 
   @ApiProperty({ example: 100 })
+  @IsNumber()
+  @Type(() => Number)
   @Column({ type: 'float', name: 'total_amount' })
   public totalAmount: number;
 
@@ -25,6 +29,7 @@ export class Order {
     enum: OrderStatus,
     default: OrderStatus.Pending,
   })
+  @IsEnum(OrderStatus)
   public status: string;
 
   @ApiProperty({ example: new Date() })

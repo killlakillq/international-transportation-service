@@ -20,13 +20,17 @@ export class RedisService implements OnModuleDestroy {
     this.client.on('connect', () => {
       logger.debug('Connected to Redis');
     });
+
+    this.client.connect().catch((err) => {
+      logger.error('Failed to connect to Redis:', err);
+    });
   }
 
   public static getInstance(): RedisService {
     if (!RedisService.instance) {
       RedisService.instance = new RedisService();
     }
-    return new RedisService();
+    return RedisService.instance;
   }
 
   public getClient(): Redis.RedisClientType {

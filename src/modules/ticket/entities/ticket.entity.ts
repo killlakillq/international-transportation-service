@@ -8,6 +8,7 @@ import {
   Index,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
+import { IsString, IsEnum } from 'class-validator';
 
 @Entity('tickets')
 @Index('issue_index', ['issue'], { unique: true })
@@ -18,6 +19,7 @@ export class Ticket {
 
   @ApiProperty({ example: 'Issue' })
   @Column()
+  @IsString()
   public issue: string;
 
   @ApiProperty({ example: TicketStatus.Opened })
@@ -26,6 +28,7 @@ export class Ticket {
     enum: TicketStatus,
     default: TicketStatus.Opened,
   })
+  @IsEnum(TicketStatus)
   public status: string;
 
   @ApiProperty({ example: 'User' })

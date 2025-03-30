@@ -11,6 +11,8 @@ import {
   Index,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
+import { IsString, IsNumber, IsEnum } from 'class-validator';
+import { Type } from 'class-transformer';
 
 @Entity('shipments')
 @Index('tracking_number_index', ['trackingNumber'], { unique: true })
@@ -21,10 +23,13 @@ export class Shipment {
 
   @ApiProperty({ example: 'Tracking Number' })
   @Column({ name: 'tracking_number', unique: true })
+  @IsString()
   public trackingNumber: string;
 
   @ApiProperty({ example: 100 })
   @Column({ type: 'float' })
+  @IsNumber()
+  @Type(() => Number)
   public weight: number;
 
   @ApiProperty({ example: ShipmentStatus.Pending })
@@ -33,6 +38,7 @@ export class Shipment {
     enum: ShipmentStatus,
     default: ShipmentStatus.Pending,
   })
+  @IsEnum(ShipmentStatus)
   public status: string;
 
   @ApiProperty({ example: 'User' })

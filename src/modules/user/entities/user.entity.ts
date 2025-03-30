@@ -8,6 +8,7 @@ import {
 import { Shipment } from '@/modules/shipment/entities/shipment.entity';
 import { Order } from '@/modules/order/entities/order.entity';
 import { Role } from '@/common/interfaces/enums/role.enum';
+import { IsString, IsEmail, IsEnum } from 'class-validator';
 
 @Entity('users')
 @Index('email_index', ['email'], { unique: true })
@@ -16,18 +17,22 @@ export class User {
   public id: string;
 
   @Column()
+  @IsString()
   public name: string;
 
   @Column({ unique: true })
+  @IsEmail()
   public email: string;
 
   @Column()
+  @IsString()
   public password: string;
 
   @Column({ nullable: true })
   public refreshToken: string;
 
   @Column()
+  @IsString()
   public phone: string;
 
   @Column({
@@ -35,6 +40,7 @@ export class User {
     enum: Role,
     default: Role.Customer,
   })
+  @IsEnum(Role)
   public role: string;
 
   @Column({
