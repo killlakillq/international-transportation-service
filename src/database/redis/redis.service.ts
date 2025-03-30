@@ -33,10 +33,10 @@ export class RedisService implements OnModuleDestroy {
     return this.client;
   }
 
-  public async set(key: string, value: string) {
+  public async set(key: string, value: string, ttl?: number) {
     const client = this.getClient();
 
-    return client.set(key, value);
+    return client.set(key, value, ttl ? { EX: ttl } : null);
   }
 
   public async get(key: string) {
