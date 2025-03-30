@@ -1,33 +1,28 @@
-import { Delivery } from '@/modules/delivery/entities/delivery.entity';
-import { ObjectType, Field, ID } from '@nestjs/graphql';
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  OneToMany,
-  type Relation,
-} from 'typeorm';
-
-@ObjectType()
+import { PrimaryGeneratedColumn, Column, Entity } from 'typeorm';
+import { ApiProperty } from '@nestjs/swagger';
 @Entity('routes')
 export class Route {
-  @Field(() => ID, { nullable: false })
+  @ApiProperty({ example: 'Route ID' })
   @PrimaryGeneratedColumn('uuid')
   public id: string;
 
-  @Field()
+  @ApiProperty({ example: 'Estimated Time' })
   @Column({ name: 'estimated_time' })
   public estimatedTime: string;
 
-  @Field()
+  @ApiProperty({ example: 'From' })
   @Column()
   public from: string;
 
-  @Field()
+  @ApiProperty({ example: 'To' })
   @Column()
   public to: string;
 
-  @Field(() => [Delivery])
-  @OneToMany(() => Delivery, (delivery) => delivery.route)
-  public deliveries: Relation<Delivery>[];
+  @ApiProperty({ example: 100 })
+  @Column()
+  public distance: number;
+
+  @ApiProperty({ example: 100 })
+  @Column()
+  public price: number;
 }

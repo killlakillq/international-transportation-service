@@ -1,26 +1,26 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
-import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { Entity, PrimaryGeneratedColumn, Column, Index } from 'typeorm';
+import { ApiProperty } from '@nestjs/swagger';
 
-@ObjectType()
 @Entity('inventories')
+@Index('product_name_index', ['productName'], { unique: true })
 export class Inventory {
-  @Field(() => ID, { nullable: false })
+  @ApiProperty({ example: 'Inventory ID' })
   @PrimaryGeneratedColumn('uuid')
   public id: string;
 
-  @Field()
+  @ApiProperty({ example: 'Product Name' })
   @Column({ name: 'product_name' })
   public productName: string;
 
-  @Field()
+  @ApiProperty({ example: 100 })
   @Column({ type: 'integer' })
   public quantity: number;
 
-  @Field()
+  @ApiProperty({ example: 100 })
   @Column({ type: 'float' })
   public weight: number;
 
-  @Field()
+  @ApiProperty({ example: 'Location' })
   @Column()
   public location: string;
 }

@@ -2,7 +2,7 @@ import { BaseRepository } from '@/database/typeorm/base-repository';
 import { Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { Vehicle } from '@/modules/vehicle/entities/vehicle.entity';
-import { CreateVehicleInput } from '@/modules/vehicle/dto/create-vehicle.input';
+import { CreateVehicleDto } from '@/modules/vehicle/dto/create-vehicle.dto';
 
 @Injectable()
 export class VehicleRepository extends BaseRepository<Vehicle> {
@@ -10,8 +10,8 @@ export class VehicleRepository extends BaseRepository<Vehicle> {
     super(Vehicle, dataSource);
   }
 
-  public async createVehicle(createVehicleInput: CreateVehicleInput) {
-    const metadata = this.create(createVehicleInput);
+  public async createVehicle(createVehicleDto: CreateVehicleDto) {
+    const metadata = this.create(createVehicleDto);
 
     return this.save(metadata);
   }

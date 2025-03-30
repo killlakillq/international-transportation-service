@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateRouteInput } from './dto/create-route.input';
-import { UpdateRouteInput } from './dto/update-route.input';
+import { CreateRouteDto } from './dto/create-route.dto';
+import { UpdateRouteDto } from './dto/update-route.dto';
 import { RouteRepository } from './route.repository';
 import { EXCEPTION } from '@/common/constants/exception.constant';
 
@@ -8,8 +8,8 @@ import { EXCEPTION } from '@/common/constants/exception.constant';
 export class RouteService {
   public constructor(private readonly routeRepository: RouteRepository) {}
 
-  public async create(createRouteInput: CreateRouteInput) {
-    return this.routeRepository.createRoute(createRouteInput);
+  public async create(createRouteDto: CreateRouteDto) {
+    return this.routeRepository.createRoute(createRouteDto);
   }
 
   public async find() {
@@ -26,10 +26,10 @@ export class RouteService {
     return route;
   }
 
-  public async update(id: string, updateRouteInput: UpdateRouteInput) {
+  public async update(id: string, updateRouteDto: UpdateRouteDto) {
     const route = await this.findById(id);
 
-    return this.routeRepository.update(route.id, updateRouteInput);
+    return this.routeRepository.update(route.id, updateRouteDto);
   }
 
   public async delete(id: string) {

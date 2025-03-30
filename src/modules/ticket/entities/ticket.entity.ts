@@ -1,32 +1,38 @@
 import { TicketStatus } from '@/common/interfaces/enums/ticket-status.enum';
 import { User } from '@/modules/user/entities/user.entity';
-import { ObjectType, Field, ID } from '@nestjs/graphql';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  Index,
+} from 'typeorm';
+import { ApiProperty } from '@nestjs/swagger';
 
-@ObjectType()
 @Entity('tickets')
+@Index('issue_index', ['issue'], { unique: true })
 export class Ticket {
-  @Field(() => ID, { nullable: false })
+  @ApiProperty({ example: 'Ticket ID' })
   @PrimaryGeneratedColumn('uuid')
   public id: string;
 
-  @Field()
+  @ApiProperty({ example: 'Issue' })
   @Column()
   public issue: string;
 
-  @Field()
+  @ApiProperty({ example: TicketStatus.Opened })
   @Column({
     type: 'enum',
     enum: TicketStatus,
     default: TicketStatus.Opened,
   })
-  public status: TicketStatus;
+  public status: string;
 
-  @Field(() => User)
+  @ApiProperty({ example: 'User' })
   @ManyToOne(() => User)
   public user: User;
 
-  @Field()
+  @ApiProperty({ example: new Date() })
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   public createdAt: Date;
 }

@@ -1,6 +1,5 @@
 import { OrderStatus } from '@/common/interfaces/enums/order-status.enum';
 import { User } from '@/modules/user/entities/user.entity';
-import { ObjectType, Field, ID } from '@nestjs/graphql';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -8,19 +7,19 @@ import {
   ManyToOne,
   type Relation,
 } from 'typeorm';
+import { ApiProperty } from '@nestjs/swagger';
 
-@ObjectType()
 @Entity('orders')
 export class Order {
-  @Field(() => ID, { nullable: false })
+  @ApiProperty({ example: 'Order ID' })
   @PrimaryGeneratedColumn('uuid')
   public id: string;
 
-  @Field()
+  @ApiProperty({ example: 100 })
   @Column({ type: 'float', name: 'total_amount' })
   public totalAmount: number;
 
-  @Field(() => OrderStatus)
+  @ApiProperty({ example: OrderStatus.Pending })
   @Column({
     type: 'enum',
     enum: OrderStatus,
@@ -28,11 +27,11 @@ export class Order {
   })
   public status: string;
 
-  @Field()
+  @ApiProperty({ example: new Date() })
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   public orderDate: Date;
 
-  @Field(() => User)
+  @ApiProperty({ example: 'User' })
   @ManyToOne(() => User, (user) => user.orders)
   public user: Relation<User>;
 }

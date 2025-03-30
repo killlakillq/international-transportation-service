@@ -2,7 +2,7 @@ import { BaseRepository } from '@/database/typeorm/base-repository';
 import { Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { Ticket } from '@/modules/ticket/entities/ticket.entity';
-import { CreateTicketInput } from '@/modules/ticket/dto/create-ticket.input';
+import { CreateTicketDto } from '@/modules/ticket/dto/create-ticket.dto';
 
 @Injectable()
 export class TicketRepository extends BaseRepository<Ticket> {
@@ -10,8 +10,8 @@ export class TicketRepository extends BaseRepository<Ticket> {
     super(Ticket, dataSource);
   }
 
-  public async createTicket(createTicketInput: CreateTicketInput) {
-    const metadata = this.create(createTicketInput);
+  public async createTicket(createTicketDto: CreateTicketDto) {
+    const metadata = this.create(createTicketDto);
 
     return this.save(metadata);
   }

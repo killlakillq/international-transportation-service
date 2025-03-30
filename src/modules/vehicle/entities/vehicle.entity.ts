@@ -5,30 +5,31 @@ import {
   ManyToOne,
   type Relation,
   JoinColumn,
+  Index,
 } from 'typeorm';
 import { User } from '@/modules/user/entities/user.entity';
-import { ObjectType, Field, ID, Float } from '@nestjs/graphql';
+import { ApiProperty } from '@nestjs/swagger';
 
-@ObjectType()
-@Entity('vechicles')
+@Entity('vehicles')
+@Index('license_plate_index', ['licensePlate'], { unique: true })
 export class Vehicle {
-  @Field(() => ID, { nullable: false })
+  @ApiProperty({ example: 'Vehicle ID' })
   @PrimaryGeneratedColumn('uuid')
   public id: string;
 
-  @Field()
+  @ApiProperty({ example: 'License Plate' })
   @Column({ name: 'license_plate', unique: true })
   public licensePlate: string;
 
-  @Field()
+  @ApiProperty({ example: 'Vehicle Type' })
   @Column({ name: 'vehicle_type' })
   public vehicleType: string;
 
-  @Field(() => Float)
+  @ApiProperty({ example: 100 })
   @Column({ type: 'float', name: 'max_capacity' })
   public maxCapacity: number;
 
-  @Field(() => User)
+  @ApiProperty({ example: 'Driver' })
   @ManyToOne(() => User)
   @JoinColumn({ name: 'driver_id' })
   public driver: Relation<User>;

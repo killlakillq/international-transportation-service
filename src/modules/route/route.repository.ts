@@ -2,7 +2,7 @@ import { BaseRepository } from '@/database/typeorm/base-repository';
 import { Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { Route } from '@/modules/route/entities/route.entity';
-import { CreateRouteInput } from '@/modules/route/dto/create-route.input';
+import { CreateRouteDto } from '@/modules/route/dto/create-route.dto';
 
 @Injectable()
 export class RouteRepository extends BaseRepository<Route> {
@@ -10,8 +10,8 @@ export class RouteRepository extends BaseRepository<Route> {
     super(Route, dataSource);
   }
 
-  public async createRoute(createRouteInput: CreateRouteInput) {
-    const metadata = this.create(createRouteInput);
+  public async createRoute(createRouteDto: CreateRouteDto) {
+    const metadata = this.create(createRouteDto);
 
     return this.save(metadata);
   }

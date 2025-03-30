@@ -4,21 +4,21 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { UserRepository } from './user.repository';
-import { CreateUserInput } from '@/modules/user/dto/create-user.input';
+import { CreateUserDto } from '@/modules/user/dto/create-user.dto';
 import { EXCEPTION } from '@/common/constants/exception.constant';
 
 @Injectable()
 export class UserService {
   public constructor(private readonly userRepository: UserRepository) {}
 
-  public async create(createUserInput: CreateUserInput) {
-    const user = await this.findByEmail(createUserInput.email);
+  public async create(createUserDto: CreateUserDto) {
+    const user = await this.findByEmail(createUserDto.email);
 
     if (user) {
       throw new BadRequestException(EXCEPTION.USER.ALREADY_EXISTS);
     }
 
-    return this.userRepository.createUser(createUserInput);
+    return this.userRepository.createUser(createUserDto);
   }
 
   public async findById(id: string) {
@@ -33,5 +33,9 @@ export class UserService {
 
   public async findByEmail(email: string) {
     return this.userRepository.findByEmail(email);
+  }
+
+  public async updateRefreshToken(id: string, refreshToken: string) {
+    return this.userRepository.updateRefreshToken(id, refreshToken);
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateTicketInput } from './dto/create-ticket.input';
-import { UpdateTicketInput } from './dto/update-ticket.input';
+import { CreateTicketDto } from './dto/create-ticket.dto';
+import { UpdateTicketDto } from './dto/update-ticket.dto';
 import { TicketRepository } from './ticket.repository';
 import { EXCEPTION } from '@/common/constants/exception.constant';
 
@@ -8,8 +8,8 @@ import { EXCEPTION } from '@/common/constants/exception.constant';
 export class TicketService {
   public constructor(private readonly ticketRepository: TicketRepository) {}
 
-  public async create(createTicketInput: CreateTicketInput) {
-    return this.ticketRepository.createTicket(createTicketInput);
+  public async create(createTicketDto: CreateTicketDto) {
+    return this.ticketRepository.createTicket(createTicketDto);
   }
 
   public async find() {
@@ -26,10 +26,10 @@ export class TicketService {
     return ticket;
   }
 
-  public async update(id: string, updateTicketInput: UpdateTicketInput) {
+  public async update(id: string, updateTicketDto: UpdateTicketDto) {
     const ticket = await this.findById(id);
 
-    return this.ticketRepository.update(ticket.id, updateTicketInput);
+    return this.ticketRepository.update(ticket.id, updateTicketDto);
   }
 
   public async delete(id: string) {

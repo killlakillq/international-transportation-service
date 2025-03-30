@@ -2,7 +2,7 @@ import { BaseRepository } from '@/database/typeorm/base-repository';
 import { Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { Order } from '@/modules/order/entities/order.entity';
-import { CreateOrderInput } from '@/modules/order/dto/create-order.input';
+import { CreateOrderDto } from '@/modules/order/dto/create-order.dto';
 
 @Injectable()
 export class OrderRepository extends BaseRepository<Order> {
@@ -10,8 +10,8 @@ export class OrderRepository extends BaseRepository<Order> {
     super(Order, dataSource);
   }
 
-  public async createOrder(createOrderInput: CreateOrderInput) {
-    const metadata = this.create(createOrderInput);
+  public async createOrder(createOrderDto: CreateOrderDto) {
+    const metadata = this.create(createOrderDto);
 
     return this.save(metadata);
   }

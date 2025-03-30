@@ -1,15 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { VehicleRepository } from '@/modules/vehicle/vehicle.repository';
-import { CreateVehicleInput } from '@/modules/vehicle/dto/create-vehicle.input';
-import { UpdateVehicleInput } from '@/modules/vehicle/dto/update-vehicle.input';
+import { CreateVehicleDto } from '@/modules/vehicle/dto/create-vehicle.dto';
+import { UpdateVehicleDto } from '@/modules/vehicle/dto/update-vehicle.dto';
 import { EXCEPTION } from '@/common/constants/exception.constant';
 
 @Injectable()
 export class VehicleService {
   public constructor(private readonly vehicleRepository: VehicleRepository) {}
 
-  public async create(createVehicleInput: CreateVehicleInput) {
-    return this.vehicleRepository.createVehicle(createVehicleInput);
+  public async create(createVehicleDto: CreateVehicleDto) {
+    return this.vehicleRepository.createVehicle(createVehicleDto);
   }
 
   public async find() {
@@ -26,10 +26,10 @@ export class VehicleService {
     return vehicle;
   }
 
-  public async update(id: string, updateVehicleInput: UpdateVehicleInput) {
+  public async update(id: string, updateVehicleDto: UpdateVehicleDto) {
     const vehicle = await this.findById(id);
 
-    return this.vehicleRepository.update(vehicle.id, updateVehicleInput);
+    return this.vehicleRepository.update(vehicle.id, updateVehicleDto);
   }
 
   public async delete(id: string) {

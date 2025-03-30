@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateShipmentInput } from './dto/create-shipment.input';
-import { UpdateShipmentInput } from './dto/update-shipment.input';
+import { CreateShipmentDto } from './dto/create-shipment.dto';
+import { UpdateShipmentDto } from './dto/update-shipment.dto';
 import { ShipmentRepository } from './shipment.repository';
 import { EXCEPTION } from '@/common/constants/exception.constant';
 
@@ -8,8 +8,8 @@ import { EXCEPTION } from '@/common/constants/exception.constant';
 export class ShipmentService {
   public constructor(private readonly shipmentRepository: ShipmentRepository) {}
 
-  public async create(createShipmentInput: CreateShipmentInput) {
-    return this.shipmentRepository.createShipment(createShipmentInput);
+  public async create(createShipmentDto: CreateShipmentDto) {
+    return this.shipmentRepository.createShipment(createShipmentDto);
   }
 
   public async find() {
@@ -26,10 +26,10 @@ export class ShipmentService {
     return shipment;
   }
 
-  public async update(id: string, updateShipmentInput: UpdateShipmentInput) {
+  public async update(id: string, updateShipmentDto: UpdateShipmentDto) {
     const shipment = await this.findById(id);
 
-    return this.shipmentRepository.update(shipment.id, updateShipmentInput);
+    return this.shipmentRepository.update(shipment.id, updateShipmentDto);
   }
 
   public async delete(id: string) {

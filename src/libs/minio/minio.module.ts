@@ -11,4 +11,4 @@ const minioServiceProvider: Provider = {
   providers: [minioServiceProvider],
   exports: [minioServiceProvider],
 })
-export class MiniioModule {}
+export class MinioModule {}

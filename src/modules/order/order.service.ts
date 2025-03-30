@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateOrderInput } from '@/modules/order/dto/create-order.input';
-import { UpdateOrderInput } from '@/modules/order/dto/update-order.input';
+import { CreateOrderDto } from '@/modules/order/dto/create-order.dto';
+import { UpdateOrderDto } from '@/modules/order/dto/update-order.dto';
 import { OrderRepository } from '@/modules/order/order.repository';
 import { EXCEPTION } from '@/common/constants/exception.constant';
 
@@ -8,8 +8,8 @@ import { EXCEPTION } from '@/common/constants/exception.constant';
 export class OrderService {
   public constructor(private readonly orderRepository: OrderRepository) {}
 
-  public async create(createOrderInput: CreateOrderInput) {
-    return this.orderRepository.createOrder(createOrderInput);
+  public async create(createOrderDto: CreateOrderDto) {
+    return this.orderRepository.createOrder(createOrderDto);
   }
 
   public async find() {
@@ -20,16 +20,16 @@ export class OrderService {
     const order = await this.orderRepository.findById(id);
 
     if (!order) {
-      throw new NotFoundException(EXCEPTION.PAYMENT.NOT_FOUND);
+      throw new NotFoundException(EXCEPTION.ORDER.NOT_FOUND);
     }
 
     return order;
   }
 
-  public async update(id: string, updateOrderInput: UpdateOrderInput) {
+  public async update(id: string, updateOrderDto: UpdateOrderDto) {
     const order = await this.findById(id);
 
-    return this.orderRepository.update(order.id, updateOrderInput);
+    return this.orderRepository.update(order.id, updateOrderDto);
   }
 
   public async delete(id: string) {

@@ -2,47 +2,48 @@ import { ShipmentStatus } from '@/common/interfaces/enums/shipment-status.enum';
 import { Route } from '@/modules/route/entities/route.entity';
 import { User } from '@/modules/user/entities/user.entity';
 import { Vehicle } from '@/modules/vehicle/entities/vehicle.entity';
-import { ObjectType, Field, ID, Float } from '@nestjs/graphql';
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
   type Relation,
+  Index,
 } from 'typeorm';
+import { ApiProperty } from '@nestjs/swagger';
 
-@ObjectType()
 @Entity('shipments')
+@Index('tracking_number_index', ['trackingNumber'], { unique: true })
 export class Shipment {
-  @Field(() => ID, { nullable: false })
+  @ApiProperty({ example: 'Shipment ID' })
   @PrimaryGeneratedColumn('uuid')
   public id: string;
 
-  @Field()
+  @ApiProperty({ example: 'Tracking Number' })
   @Column({ name: 'tracking_number', unique: true })
   public trackingNumber: string;
 
-  @Field(() => Float)
+  @ApiProperty({ example: 100 })
   @Column({ type: 'float' })
   public weight: number;
 
-  @Field(() => ShipmentStatus)
+  @ApiProperty({ example: ShipmentStatus.Pending })
   @Column({
     type: 'enum',
     enum: ShipmentStatus,
     default: ShipmentStatus.Pending,
   })
-  public status: ShipmentStatus;
+  public status: string;
 
-  @Field(() => User)
+  @ApiProperty({ example: 'User' })
   @ManyToOne(() => User, (user) => user.shipments)
   public user: Relation<User>;
 
-  @Field(() => Route)
+  @ApiProperty({ example: 'Route' })
   @ManyToOne(() => Route)
   public route: Relation<Route>;
 
-  @Field(() => Vehicle)
+  @ApiProperty({ example: 'Vehicle' })
   @ManyToOne(() => Vehicle)
   public vehicle: Relation<Vehicle>;
 }

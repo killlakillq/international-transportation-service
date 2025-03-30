@@ -1,7 +1,11 @@
 export const EXCEPTION = {
+  AUTH: {
+    TOKEN_INVALID: 'Token is invalid',
+  },
   USER: {
     NOT_FOUND: 'User not found',
     ALREADY_EXISTS: 'User already exists',
+    LOGIN_OR_PASSWORD_WRONG: 'Login or password is wrong',
   },
   VEHICLE: {
     NOT_FOUND: 'Vehicle not found',
@@ -12,22 +16,13 @@ export const EXCEPTION = {
   SHIPMENT: {
     NOT_FOUND: 'Shipment not found',
   },
-  DELIVERY: {
-    NOT_FOUND: 'Delivery not found',
-  },
-  PAYMENT: {
-    NOT_FOUND: 'Payment not found',
-  },
   TICKET: {
     NOT_FOUND: 'Ticket not found',
   },
-  RATE: {
-    NOT_FOUND: 'Rate not found',
+  ORDER: {
+    NOT_FOUND: 'Order not found',
   },
   INVENTORY: {
     NOT_FOUND: 'Inventory not found',
-  },
-  DOCUMENT: {
-    NOT_FOUND: 'Document not found',
   },
 };

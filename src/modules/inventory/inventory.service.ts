@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateInventoryInput } from '@/modules/inventory/dto/create-inventory.input';
-import { UpdateInventoryInput } from '@/modules/inventory/dto/update-inventory.input';
+import { CreateInventoryDto } from '@/modules/inventory/dto/create-inventory.dto';
+import { UpdateInventoryDto } from '@/modules/inventory/dto/update-inventory.dto';
 import { InventoryRepository } from '@/modules/inventory/inventory.repository';
 import { EXCEPTION } from '@/common/constants/exception.constant';
 
@@ -10,8 +10,8 @@ export class InventoryService {
     private readonly inventoryRepository: InventoryRepository,
   ) {}
 
-  public async create(createInventoryInput: CreateInventoryInput) {
-    return this.inventoryRepository.createInventory(createInventoryInput);
+  public async create(createInventoryDto: CreateInventoryDto) {
+    return this.inventoryRepository.createInventory(createInventoryDto);
   }
 
   public async find() {
@@ -28,10 +28,10 @@ export class InventoryService {
     return inventory;
   }
 
-  public async update(id: string, updateInventoryInput: UpdateInventoryInput) {
+  public async update(id: string, updateInventoryDto: UpdateInventoryDto) {
     const inventory = await this.findById(id);
 
-    return this.inventoryRepository.update(inventory.id, updateInventoryInput);
+    return this.inventoryRepository.update(inventory.id, updateInventoryDto);
   }
 
   public async delete(id: string) {

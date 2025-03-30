@@ -3,28 +3,17 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import config from '@/config';
 import { queryLogger } from '@/logger';
 import { UserModule } from '@/modules/user/user.module';
-import { GraphQLModule } from '@nestjs/graphql';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { join } from 'node:path';
-import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
-import { GraphQLContext } from '@/common/interfaces/graphql-context.interface';
-import { OriginalError } from '@/common/interfaces/original-error.interface';
 import { VehicleModule } from '@/modules/vehicle/vehicle.module';
 import { ShipmentModule } from '@/modules/shipment/shipment.module';
 import { TicketModule } from '@/modules/ticket/ticket.module';
 import { RouteModule } from '@/modules/route/route.module';
-import { RateModule } from '@/modules/rate/rate.module';
-import { PaymentModule } from '@/modules/payment/payment.module';
 import { OrderModule } from '@/modules/order/order.module';
-import { NotificationModule } from '@/modules/notification/notification.module';
 import { InventoryModule } from '@/modules/inventory/inventory.module';
-import { DocumentModule } from '@/modules/document/document.module';
-import { DeliveryModule } from '@/modules/delivery/delivery.module';
-import { CalculationModule } from '@/modules/calculation/calculation.module';
 import { AuthModule } from '@/modules/auth/auth.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
-
+import { MinioModule } from '@/libs/minio/minio.module';
+import { RedisModule } from '@/database/redis/redis.module';
 @Module({
   imports: [
     ThrottlerModule.forRoot({
@@ -35,35 +24,6 @@ import { APP_GUARD } from '@nestjs/core';
         },
       ],
     }),
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      driver: ApolloDriver,
-      playground: false,
-      plugins: [ApolloServerPluginLandingPageLocalDefault()],
-      autoSchemaFile: join(process.cwd(), 'src/libs/graphql/schema.gql'),
-      context: ({ req, res }: GraphQLContext): GraphQLContext => ({ req, res }),
-      formatError: (error) => {
-        const originalError = error.extensions[
-          'originalError'
-        ] as OriginalError;
-
-        if (!originalError) {
-          return {
-            message: error.message,
-            code: error.extensions['code'],
-            locations: error.locations,
-            path: error.path,
-          };
-        }
-
-        return {
-          message: originalError.message,
-          code: originalError.error,
-          statusCode: originalError.statusCode,
-          locations: error.locations,
-          path: error.path,
-        };
-      },
-    }),
     TypeOrmModule.forRoot({
       ...config.dbConfig,
       logger: queryLogger,
@@ -73,15 +33,11 @@ import { APP_GUARD } from '@nestjs/core';
     ShipmentModule,
     TicketModule,
     RouteModule,
-    RateModule,
-    PaymentModule,
     OrderModule,
-    NotificationModule,
     InventoryModule,
-    DocumentModule,
-    DeliveryModule,
-    CalculationModule,
     AuthModule,
+    MinioModule,
+    RedisModule,
   ],
   providers: [
     {
